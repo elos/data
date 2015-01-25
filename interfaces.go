@@ -62,6 +62,8 @@ func NewChange(kind ChangeKind, r Record) *Change {
 	}
 }
 
+type DBType string
+
 /*
 	Abstraction of a DataStore
 	- Covers underlying connection
@@ -85,7 +87,7 @@ type DB interface {
 
 	NewQuery(Kind) Query
 
-	Type() string
+	Type() DBType
 
 	RegisterForUpdates(Identifiable) *chan *Change
 }

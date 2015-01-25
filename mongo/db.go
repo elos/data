@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-const MongoDBType = "mongo"
+const DBType data.DBType = "mongo"
 
 type MongoDB struct {
 	Connections []*MongoConnection
@@ -23,8 +23,8 @@ func NewDB(addr string) (data.DB, error) {
 	return db, nil
 }
 
-func (db *MongoDB) Type() string {
-	return MongoDBType
+func (db *MongoDB) Type() data.DBType {
+	return DBType
 }
 
 func (db *MongoDB) Connect(addr string) error {
