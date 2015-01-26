@@ -28,6 +28,7 @@ type Identifiable interface {
 type Persistable interface {
 	Identifiable
 	Kind() Kind
+	DBType() DBType
 }
 
 /*
