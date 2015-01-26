@@ -1,29 +1,28 @@
 package data
 
-/*
-	Model type or class
-	Should correspond with the model name, generally lowercase
-*/
-type Kind string
-
-// A generic interface for using data IDs
-// (This is partially specific to fulfill the bson spec)
-// needs work
+// ID is a generic interface for working with IDs
+// It is presently overly specify to fulfil the mongo
+// bson spec: specifically bson.ObjectId
+// FIXME: this interface may be deprecated, after
+// further considerations on the specific nature of
+// a struct field representation for a record's id
 type ID interface {
 	String() string
 	Hex() string
 	Valid() bool
 }
 
-// Can be identified by and labeled by an ID
+// An Identifiable can be identified by and assigned an ID
 type Identifiable interface {
 	ID() ID
 	SetID(ID)
 }
 
 /*
-	To be able to be persisted something must have
-	some sort of id and type
+	A Persistable can be saved by a DB.
+
+	To be able to be persisted a type must
+	be identifiable and define its Kind and DBType
 */
 type Persistable interface {
 	Identifiable
@@ -32,12 +31,14 @@ type Persistable interface {
 }
 
 /*
-	Relational Row
-	Mongo Document
+	A Record represent the structured data a DB knows
+	how to persist.
 
-	Defines the helper function Save
+	It represents a relational row or mongo document
 
-	Concerned is for model update notifications
+	A record must define who would be concerned
+	if it were to change (underlying mechanism for subscribing
+	to a DB's changes.
 */
 type Record interface {
 	Persistable
@@ -45,33 +46,17 @@ type Record interface {
 	Concerned() []ID // for model updates
 }
 
-type ChangeKind int
-
-const Update ChangeKind = 1
-const Delete ChangeKind = 2
-
-type Change struct {
-	ChangeKind
-	Record
-}
-
-func NewChange(kind ChangeKind, r Record) *Change {
-	return &Change{
-		ChangeKind: kind,
-		Record:     r,
-	}
-}
-
-type DBType string
-
 /*
-	Abstraction of a DataStore
-	- Covers underlying connection
-	- Covers id generation
-	- Covers Save, Delete and simple finds
-	- Covers advanced querying
-	- Covers database typing for model compatability
-	- Covers Registering for changeset updates
+	A DB is an abstraction of a database or store. A DB is anything
+	that can persist and retrieve structured data, namely Records.
+
+	A DB must handle its underlying connection,
+	expose a DBTyp,
+	implement its id generation,
+	implement Save and Delete and simple Finds.
+
+	A DB must also cover advanced selection querying,
+	and provide a mechanism of subscribing to data changes.
 */
 type DB interface {
 	// Management
@@ -92,24 +77,23 @@ type DB interface {
 	RegisterForUpdates(Identifiable) *chan *Change
 }
 
-/* Basic, basic abstraction of underlying DBConnection */
+// A DBConnection serves as a basic abstraction of
+// the connection underlying a DB
+// FIXME: may be deprecated as the connection is
+// implementation specific and the DBConnection type
+// is exposed noqhere in the DB interface
 type DBConnection interface {
 	Close()
 }
 
-/* JSON attributes to values */
-type AttrMap map[string]interface{}
-
-/* data.Kinds to records */
-type KindMap map[Kind]Record
-
 /*
-	Abstraction of a database query
-	- Covers selection
-	- Covers limiting, skipping and batching
+	A Query is an abstraction of a datbase query.
 
-	Executing a query returns a record iterator, the
-	most elegant method of reading database lookup results
+	It handles selection, limiting, skipping and batching.
+
+	Executing a query returns a RecordIterator,
+	an expandable and elegant method of handling n-sized
+	results.
 */
 type Query interface {
 	Execute() (RecordIterator, error)
@@ -121,10 +105,13 @@ type Query interface {
 }
 
 /*
-	Abstraction of all database query results
+	A RecordIterator is an abstraction for handling
+	Query results.
 
-	Acts like an iterator - code can be written for n
-	results (batching will always handle memory load)
+	A RecordIterator acts like an iterator - code should
+	be written for n results.
+
+	Handle memory load by bactching a query's results, see: Query.Batch
 */
 type RecordIterator interface {
 	Next(Record) bool

@@ -12,7 +12,7 @@ var (
 	// the DB's implementation.
 	ErrInvalidID = errors.New("database error: invalid id")
 
-	// ErrInvalidType is used if a DB decides a Record's DBType is
+	// ErrInvalidDBType is used if a DB decides a Record's DBType is
 	// incompatible with the DB's DBType.
 	// This is generally only an issue for SQL variants
 	ErrInvalidDBType = errors.New("database error: invalid type")
