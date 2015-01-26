@@ -17,7 +17,7 @@ type TestDB struct {
 
 var TestDBError error = fmt.Errorf("TestDB Error")
 
-const TestDBType = "test"
+const DBType data.DBType = "test"
 
 type TestDBID string
 
@@ -39,8 +39,8 @@ func NewDB() *TestDB {
 	return db
 }
 
-func (db *TestDB) Type() string {
-	return TestDBType
+func (db *TestDB) Type() data.DBType {
+	return DBType
 }
 
 func (db *TestDB) Reset() {

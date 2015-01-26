@@ -132,7 +132,7 @@ func (db *MongoDB) RegisterForUpdates(a data.Identifiable) *chan *data.Change {
 	db.m.Lock()
 	defer db.m.Unlock()
 
-	id := a.GetID()
+	id := a.ID()
 	c := make(chan *data.Change)
 
 	db.Subscribers[id] = append(db.Subscribers[id], &c)

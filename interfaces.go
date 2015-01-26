@@ -15,10 +15,10 @@ type ID interface {
 	Valid() bool
 }
 
-// Can be identied by and labeled by an ID
+// Can be identified by and labeled by an ID
 type Identifiable interface {
+	ID() ID
 	SetID(ID)
-	GetID() ID
 }
 
 /*
@@ -41,7 +41,6 @@ type Persistable interface {
 type Record interface {
 	Persistable
 
-	Save(DB) error
 	Concerned() []ID // for model updates
 }
 

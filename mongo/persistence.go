@@ -14,7 +14,7 @@ func save(s *mgo.Session, m data.Record) error {
 		return err
 	}
 
-	id, ok := m.GetID().(bson.ObjectId)
+	id, ok := m.ID().(bson.ObjectId)
 	if !ok {
 		log("Model id was not of type bson.ObjectId")
 	}
@@ -36,7 +36,7 @@ func remove(s *mgo.Session, m data.Record) error {
 		return err
 	}
 
-	id, ok := m.GetID().(bson.ObjectId)
+	id, ok := m.ID().(bson.ObjectId)
 	if !ok {
 		log("Model id was not of the type bson.ObjectId")
 	}
@@ -57,12 +57,12 @@ func populateById(s *mgo.Session, m data.Record) error {
 		return err
 	}
 
-	id := m.GetID()
+	id := m.ID()
 	if !id.Valid() {
 		return data.InvalidIDError
 	}
 
-	return collection.FindId(m.GetID()).One(m)
+	return collection.FindId(m.ID()).One(m)
 }
 
 func populateByField(s *mgo.Session, m data.Record, field string, value interface{}) error {
