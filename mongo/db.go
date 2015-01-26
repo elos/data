@@ -44,7 +44,7 @@ func (db *MongoDB) NewObjectID() data.ID {
 
 func (db *MongoDB) CheckID(id data.ID) error {
 	if !id.Valid() {
-		return data.InvalidIDError
+		return data.ErrInvalidID
 	}
 
 	return nil
@@ -86,7 +86,7 @@ func (db *MongoDB) Delete(m data.Record) error {
 	}
 }
 
-func (db *MongoDB) PopulateById(m data.Record) error {
+func (db *MongoDB) PopulateByID(m data.Record) error {
 	s, err := newSession(db)
 	if err != nil {
 		log(err)
@@ -98,7 +98,7 @@ func (db *MongoDB) PopulateById(m data.Record) error {
 	if err = populateById(s, m); err != nil {
 		logf("There was an error populating the %s model, error: %v", m.Kind(), err)
 		if err == mgo.ErrNotFound {
-			return data.NotFoundError
+			return data.ErrNotFound
 		} else {
 			return err
 		}

@@ -81,7 +81,7 @@ type DB interface {
 	CheckID(ID) error
 	Save(Record) error
 	Delete(Record) error
-	PopulateById(Record) error
+	PopulateByID(Record) error
 	PopulateByField(string, interface{}, Record) error
 
 	NewQuery(Kind) Query

@@ -94,7 +94,7 @@ func (db *TestDB) Delete(m data.Record) error {
 	return nil
 }
 
-func (db *TestDB) PopulateById(m data.Record) error {
+func (db *TestDB) PopulateByID(m data.Record) error {
 	if db.Error {
 		return TestDBError
 	}

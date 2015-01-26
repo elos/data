@@ -20,7 +20,7 @@ func save(s *mgo.Session, m data.Record) error {
 	}
 
 	if !id.Valid() {
-		return data.InvalidIDError
+		return data.ErrInvalidID
 	}
 
 	// changeInfo, err := ...
@@ -42,7 +42,7 @@ func remove(s *mgo.Session, m data.Record) error {
 	}
 
 	if !id.Valid() {
-		return data.InvalidIDError
+		return data.ErrInvalidID
 	}
 
 	err = collection.RemoveId(id)
@@ -59,7 +59,7 @@ func populateById(s *mgo.Session, m data.Record) error {
 
 	id := m.ID()
 	if !id.Valid() {
-		return data.InvalidIDError
+		return data.ErrInvalidID
 	}
 
 	return collection.FindId(m.ID()).One(m)
