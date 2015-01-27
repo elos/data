@@ -111,7 +111,7 @@ type Query interface {
 	A RecordIterator acts like an iterator - code should
 	be written for n results.
 
-	Handle memory load by bactching a query's results, see: Query.Batch
+	Handle memory load by batching a query's results, see: Query.Batch
 */
 type RecordIterator interface {
 	Next(Record) bool
