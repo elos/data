@@ -16,4 +16,10 @@ var (
 	// incompatible with the DB's DBType.
 	// This is generally only an issue for SQL variants
 	ErrInvalidDBType = errors.New("database error: invalid type")
+
+	ErrUndefinedKind      = errors.New("undefined kind")
+	ErrUndefinedLink      = errors.New("undefined link")
+	ErrUndefinedLinkKind  = errors.New("undefined link mind")
+	ErrInvalidSchema      = errors.New("invalid schema")
+	ErrIncompatibleModels = errors.New("incompatible models")
 )
