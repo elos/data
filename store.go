@@ -1,12 +1,17 @@
 package data
 
-type Store struct {
+type Store interface {
 	DB
 	Schema
 }
 
-func NewStore(db DB, s Schema) *Store {
-	return &Store{
+type store struct {
+	DB
+	Schema
+}
+
+func NewStore(db DB, s Schema) *store {
+	return &store{
 		DB:     db,
 		Schema: s,
 	}
