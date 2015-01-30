@@ -51,7 +51,7 @@ type Record interface {
 	that can persist and retrieve structured data, namely Records.
 
 	A DB must handle its underlying connection,
-	expose a DBTyp,
+	expose a DBType,
 	implement its id generation,
 	implement Save and Delete and simple Finds.
 
