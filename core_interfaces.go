@@ -1,7 +1,7 @@
 package data
 
 // ID is a generic interface for working with IDs
-// It is presently overly specify to fulfil the mongo
+// It is presently overly specified to fulfil the mongo
 // bson spec: specifically bson.ObjectId
 // FIXME: this interface may be deprecated, after
 // further considerations on the specific nature of
@@ -81,13 +81,13 @@ type DB interface {
 // the connection underlying a DB
 // FIXME: may be deprecated as the connection is
 // implementation specific and the DBConnection type
-// is exposed noqhere in the DB interface
+// is exposed nowhere in the DB interface
 type DBConnection interface {
 	Close()
 }
 
 /*
-	A Query is an abstraction of a datbase query.
+	A Query is an abstraction of a database query.
 
 	It handles selection, limiting, skipping and batching.
 
