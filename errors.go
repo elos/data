@@ -18,22 +18,40 @@ var (
 	// This is generally only an issue for SQL variants
 	ErrInvalidDBType = errors.New("data error: invalid type")
 
-	ErrUndefinedKind      = errors.New("data error: undefined kind")
-	ErrUndefinedLink      = errors.New("data error: undefined link")
-	ErrUndefinedLinkKind  = errors.New("data error: undefined link mind")
-	ErrInvalidSchema      = errors.New("data error: invalid schema")
+	// ErrInvalidSchema is used if the schema can not be validated
+	ErrInvalidSchema = errors.New("data error: invalid schema")
+
+	// ErrUndefinedKind is used if a DB or Schema or Store can't
+	// verify or recognize the kind supplied by a Record
+	ErrUndefinedKind = errors.New("data error: undefined kind")
+
+	// ErrUndefinedLink is used if a link cannot be made
+	// as it is not defined in the schema
+	ErrUndefinedLink = errors.New("data error: undefined link")
+
+	// ErrUndefinedLinkKind is used if a LinkKind has not been defined
+	ErrUndefinedLinkKind = errors.New("data error: undefined link mind")
+
+	// ErrIncompatibleModels is used if two models don't have the same DBType
 	ErrIncompatibleModels = errors.New("data error: incompatible models")
 )
 
+// An AttrError is used when a model fails validation,
+// the model's Valid() function should return false, AttrError
+// Use the NewAttrError function to create AttrErrors
 type AttrError struct {
 	AttrName string
 	What     string
 }
 
+// Error() is defined so that go can print the error nicely
 func (e AttrError) Error() string {
 	return fmt.Sprintf("attribute %v must %v", e.AttrName, e.What)
 }
 
+// NewAttrError constructs a new instance of an attr error.
+//	var err AttError = NewAttrError("name", "be present")
+// The error will print: "[first string] must [second string]"
 func NewAttrError(a string, w string) AttrError {
 	return AttrError{
 		AttrName: a,
