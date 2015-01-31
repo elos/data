@@ -1,5 +1,11 @@
 package data
 
+// Compatible checks whether one model has the same
+// DBType as another model
+func Compatible(this Model, that Model) bool {
+	return this.DBType() == that.DBType()
+}
+
 func possibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
 	thisKind := this.Kind()
 
@@ -53,10 +59,6 @@ func unlinkWith(ln LinkKind, this Model, that Model) error {
 	}
 
 	return nil
-}
-
-func Compatible(this Model, that Model) bool {
-	return this.DBType() == that.DBType()
 }
 
 func (s *RelationshipMap) Link(this Model, that Model) error {
