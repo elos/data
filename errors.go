@@ -2,6 +2,7 @@ package data
 
 import (
 	"errors"
+	"fmt"
 )
 
 var (
@@ -23,3 +24,19 @@ var (
 	ErrInvalidSchema      = errors.New("invalid schema")
 	ErrIncompatibleModels = errors.New("incompatible models")
 )
+
+type AttrError struct {
+	AttrName string
+	What     string
+}
+
+func (e AttrError) Error() string {
+	return fmt.Sprintf("attribute %v: %v", e.AttrName, e.What)
+}
+
+func NewAttrError(a string, w string) AttrError {
+	return AttrError{
+		AttrName: a,
+		What:     w,
+	}
+}
