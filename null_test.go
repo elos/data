@@ -12,18 +12,14 @@ var _ = Describe("null.go", func() {
 	// NullID {{{
 
 	Describe("NullID", func() {
-		It("Subtypes a string", func() {
-			var id NullID = NullID("null id")
-			Expect(id.Valid()).To(BeTrue())
-		})
 
 		It("Is always valid", func() {
-			Expect(NullID("").Valid()).To(BeTrue())
+			Expect(NewNullID("").Valid()).To(BeTrue())
 		})
 
 		It("Satisfies the ID interface", func() {
 			// Won't compile if NullID fails implementation
-			_ = func() ID { return NullID("") }
+			_ = func() ID { return NewNullID("") }
 		})
 	})
 

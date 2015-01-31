@@ -1,107 +1,111 @@
 package data
 
-// NullID {{{
+// nullID {{{
 
-type NullID string
+type nullID string
 
-func (id NullID) Valid() bool {
+func NewNullID(s string) nullID {
+	return nullID(s)
+}
+
+func (id nullID) Valid() bool {
 	return true
 }
 
-// NullID }}}
+// nullID }}}
 
-// NullDB {{{
+// nullDB {{{
 
-type NullDB struct{}
+type nullDB struct{}
 
-func NewNullDB() *NullDB {
-	return &NullDB{}
+func NewNullDB() *nullDB {
+	return &nullDB{}
 }
 
-var NullDBType DBType = "dev/null"
+var nullDBType DBType = "dev/null"
 
-func (db *NullDB) Type() DBType {
-	return NullDBType
+func (db *nullDB) Type() DBType {
+	return nullDBType
 }
 
-func (db *NullDB) Connect(addr string) error {
+func (db *nullDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *NullDB) RegisterForUpdates(a Identifiable) *chan *Change {
+func (db *nullDB) RegisterForUpdates(a Identifiable) *chan *Change {
 	c := make(chan *Change)
 	return &c
 }
 
-func (db *NullDB) NewObjectID() ID {
-	return NullID("")
+func (db *nullDB) NewObjectID() ID {
+	return nullID("")
 }
 
-func (db *NullDB) CheckID(id ID) error {
+func (db *nullDB) CheckID(id ID) error {
 	return nil
 }
 
-func (db *NullDB) Save(m Record) error {
+func (db *nullDB) Save(m Record) error {
 	return nil
 }
 
-func (db *NullDB) Delete(m Record) error {
+func (db *nullDB) Delete(m Record) error {
 	return nil
 }
 
-func (db *NullDB) PopulateByID(m Record) error {
+func (db *nullDB) PopulateByID(m Record) error {
 	return nil
 }
 
-func (db *NullDB) PopulateByField(field string, value interface{}, m Record) error {
+func (db *nullDB) PopulateByField(field string, value interface{}, m Record) error {
 	return nil
 }
 
-func (db *NullDB) NewQuery(k Kind) Query {
+func (db *nullDB) NewQuery(k Kind) Query {
 	return nil
 }
 
-// NullDB }}}
+// nullDB }}}
 
-// NullSchema {{{
+// nullSchema {{{
 
-type NullSchema struct {
+type nullSchema struct {
 	Schema
 }
 
-func NewNullSchema() *NullSchema {
+func NewNullSchema() *nullSchema {
 	s, _ := NewSchema(new(RelationshipMap), 0)
-	return &NullSchema{
+	return &nullSchema{
 		Schema: s,
 	}
 }
 
-// NullSchema }}}
+// nullSchema }}}
 
-// NullStore {{{
+// nullStore {{{
 
-type NullStore struct {
-	*NullDB
-	*NullSchema
+type nullStore struct {
+	*nullDB
+	*nullSchema
 }
 
-func (s *NullStore) Register(k Kind, c ModelConstructor) {
+func (s *nullStore) Register(k Kind, c ModelConstructor) {
 	return
 }
 
-func (s *NullStore) ModelFor(kind Kind) (Model, error) {
+func (s *nullStore) ModelFor(kind Kind) (Model, error) {
 	return nil, nil
 }
 
-func (s *NullStore) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
+func (s *nullStore) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
 	return nil, nil
 }
 
 func NewNullStore() Store {
-	return &NullStore{
-		NullDB:     NewNullDB(),
-		NullSchema: NewNullSchema(),
+	return &nullStore{
+		nullDB:     NewNullDB(),
+		nullSchema: NewNullSchema(),
 	}
 }
 
-// NullStore }}}
+// nullStore }}}
