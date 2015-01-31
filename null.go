@@ -1,18 +1,16 @@
 package data
 
+// NullID {{{
+
 type NullID string
-
-func (id NullID) String() string {
-	return string(id)
-}
-
-func (id NullID) Hex() string {
-	return string(id)
-}
 
 func (id NullID) Valid() bool {
 	return true
 }
+
+// NullID }}}
+
+// NullDB {{{
 
 type NullDB struct{}
 
@@ -63,6 +61,10 @@ func (db *NullDB) NewQuery(k Kind) Query {
 	return nil
 }
 
+// NullDB }}}
+
+// NullSchema {{{
+
 type NullSchema struct {
 	Schema
 }
@@ -74,9 +76,25 @@ func NewNullSchema() *NullSchema {
 	}
 }
 
+// NullSchema }}}
+
+// NullStore {{{
+
 type NullStore struct {
 	*NullDB
 	*NullSchema
+}
+
+func (s *NullStore) Register(k Kind, c ModelConstructor) {
+	return
+}
+
+func (s *NullStore) ModelFor(kind Kind) (Model, error) {
+	return nil, nil
+}
+
+func (s *NullStore) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
+	return nil, nil
 }
 
 func NewNullStore() Store {
@@ -85,3 +103,5 @@ func NewNullStore() Store {
 		NullSchema: NewNullSchema(),
 	}
 }
+
+// NullStore }}}
