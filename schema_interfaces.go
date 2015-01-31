@@ -27,10 +27,6 @@ type Versioned interface {
 type Schema interface {
 	Linker
 	Versioned
-
-	Register(Kind, ModelConstructor)
-	ModelFor(Kind) (Model, error)
-	Unmarshal(Kind, AttrMap) (Model, error)
 }
 
 type Createable interface {

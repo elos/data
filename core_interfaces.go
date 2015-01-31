@@ -1,14 +1,7 @@
 package data
 
 // ID is a generic interface for working with IDs
-// It is presently overly specified to fulfil the mongo
-// bson spec: specifically bson.ObjectId
-// FIXME: this interface may be deprecated, after
-// further considerations on the specific nature of
-// a struct field representation for a record's id
 type ID interface {
-	String() string
-	Hex() string
 	Valid() bool
 }
 

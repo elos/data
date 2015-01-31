@@ -1,9 +1,6 @@
 package data
 
-import (
-	"encoding/json"
-	"sync"
-)
+import "sync"
 
 type LinkKind string
 
@@ -33,13 +30,9 @@ func (s *RelationshipMap) valid() bool {
 	return true
 }
 
-type ModelConstructor func() Model
-
 type versionedRelationshipMap struct {
 	*RelationshipMap
-	registered map[Kind]ModelConstructor
-	version    int
-	DB
+	version int
 
 	sync.Mutex
 }
@@ -47,7 +40,6 @@ type versionedRelationshipMap struct {
 func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 	s := &versionedRelationshipMap{
 		RelationshipMap: sm,
-		registered:      make(map[Kind]ModelConstructor),
 		version:         version,
 	}
 
@@ -60,33 +52,4 @@ func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 
 func (s *versionedRelationshipMap) Version() int {
 	return s.version
-}
-
-func (s *versionedRelationshipMap) Register(k Kind, c ModelConstructor) {
-	s.Lock()
-	defer s.Unlock()
-
-	s.registered[k] = c
-}
-
-func (s *versionedRelationshipMap) ModelFor(kind Kind) (Model, error) {
-	s.Lock()
-	defer s.Unlock()
-	c, ok := s.registered[kind]
-
-	if !ok {
-		return nil, ErrUndefinedKind
-	}
-
-	return c(), nil
-}
-
-func (s *versionedRelationshipMap) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
-	bytes, _ := json.Marshal(attrs)
-	m, err := s.ModelFor(k)
-	if err != nil {
-		return m, err
-	}
-
-	return m, json.Unmarshal(bytes, m)
 }
