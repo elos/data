@@ -51,7 +51,7 @@ func (e AttrError) Error() string {
 
 // NewAttrError constructs a new instance of an attr error.
 //	var err AttError = NewAttrError("name", "be present")
-// The error will print: "[first string] must [second string]"
+// The error will print: "attribute [first string] must [second string]"
 func NewAttrError(a string, w string) AttrError {
 	return AttrError{
 		AttrName: a,
