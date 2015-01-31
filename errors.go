@@ -31,7 +31,7 @@ type AttrError struct {
 }
 
 func (e AttrError) Error() string {
-	return fmt.Sprintf("attribute %v: %v", e.AttrName, e.What)
+	return fmt.Sprintf("attribute %v must %v", e.AttrName, e.What)
 }
 
 func NewAttrError(a string, w string) AttrError {
