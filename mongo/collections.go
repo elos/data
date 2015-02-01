@@ -8,9 +8,10 @@ import (
 
 const DefaultDatabase string = "test"
 
-var Collections = map[data.Kind]string{
-	"user":  "users",
-	"event": "events",
+var Collections = map[data.Kind]string{}
+
+func RegisterKind(k data.Kind, c string) {
+	Collections[k] = c
 }
 
 func database(s *mgo.Session) *mgo.Database {

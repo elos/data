@@ -38,7 +38,7 @@ func (db *MongoDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *MongoDB) NewObjectID() data.ID {
+func (db *MongoDB) NewID() data.ID {
 	return NewObjectID()
 }
 
