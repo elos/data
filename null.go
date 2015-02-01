@@ -37,7 +37,7 @@ func (db *nullDB) RegisterForUpdates(a Identifiable) *chan *Change {
 	return &c
 }
 
-func (db *nullDB) NewObjectID() ID {
+func (db *nullDB) NewID() ID {
 	return nullID("")
 }
 

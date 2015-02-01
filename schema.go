@@ -9,7 +9,12 @@ const (
 	OneLink LinkKind = "ONE"
 )
 
-type RelationshipMap map[Kind]map[Kind]LinkKind
+type Link struct {
+	Name string
+	Kind LinkKind
+}
+
+type RelationshipMap map[Kind]map[Kind]Link
 
 func (s *RelationshipMap) valid() bool {
 	for outerKind, links := range *s {

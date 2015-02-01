@@ -26,39 +26,13 @@ func possibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
 	return true, nil
 }
 
-func (s *RelationshipMap) linkType(this Model, other Model) (LinkKind, error) {
+func (s *RelationshipMap) linkFor(this Model, other Model) (Link, error) {
 	_, err := possibleLink(s, this, other)
 	if err != nil {
-		return "", err
+		return *new(Link), err
 	}
 
 	return (*s)[this.Kind()][other.Kind()], nil
-}
-
-func linkWith(lk LinkKind, this Model, that Model) error {
-	switch lk {
-	case MulLink:
-		this.LinkMul(that)
-	case OneLink:
-		this.LinkOne(that)
-	default:
-		return ErrUndefinedLinkKind
-	}
-
-	return nil
-}
-
-func unlinkWith(ln LinkKind, this Model, that Model) error {
-	switch ln {
-	case MulLink:
-		this.UnlinkMul(that)
-	case OneLink:
-		this.UnlinkOne(that)
-	default:
-		return ErrUndefinedLinkKind
-	}
-
-	return nil
 }
 
 func (s *RelationshipMap) Link(this Model, that Model) error {
@@ -66,22 +40,22 @@ func (s *RelationshipMap) Link(this Model, that Model) error {
 		return ErrIncompatibleModels
 	}
 
-	thisLinkType, err := s.linkType(this, that)
+	thisLink, err := s.linkFor(this, that)
 
 	if err != nil {
 		return err
 	} else {
-		if err = linkWith(thisLinkType, this, that); err != nil {
+		if err = this.Link(that, thisLink); err != nil {
 			return err
 		}
 	}
 
-	thatLinkType, err := s.linkType(that, this)
+	thatLink, err := s.linkFor(that, this)
 
 	if err != nil {
 		return err
 	} else {
-		if err = linkWith(thatLinkType, that, this); err != nil {
+		if err = that.Link(this, thatLink); err != nil {
 			return err
 		}
 	}
@@ -94,22 +68,22 @@ func (s *RelationshipMap) Unlink(this Model, that Model) error {
 		return ErrIncompatibleModels
 	}
 
-	thisLinkType, err := s.linkType(this, that)
+	thisLink, err := s.linkFor(this, that)
 
 	if err != nil {
 		return err
 	} else {
-		if err = unlinkWith(thisLinkType, this, that); err != nil {
+		if err = this.Unlink(that, thisLink); err != nil {
 			return err
 		}
 	}
 
-	thatLinkType, err := s.linkType(that, this)
+	thatLink, err := s.linkFor(that, this)
 
 	if err != nil {
 		return err
 	} else {
-		if err = unlinkWith(thatLinkType, that, this); err != nil {
+		if err = that.Unlink(this, thatLink); err != nil {
 			return err
 		}
 	}

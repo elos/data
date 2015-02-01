@@ -57,7 +57,7 @@ func (db *TestDB) RegisterForUpdates(a Identifiable) *chan *Change {
 	return &db.ModelUpdates
 }
 
-func (db *TestDB) NewObjectID() ID {
+func (db *TestDB) NewID() ID {
 	return &TestID{valid: true}
 }
 
