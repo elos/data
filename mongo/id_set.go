@@ -30,8 +30,8 @@ func DropID(s IDSet, id bson.ObjectId) IDSet {
 }
 
 func (s IDSet) IndexID(id bson.ObjectId) (int, bool) {
-	for i, id := range s {
-		if id == id {
+	for i, iid := range s {
+		if id == iid {
 			return i, true
 		}
 	}
