@@ -62,17 +62,19 @@ func NewAttrError(a string, w string) AttrError {
 type LinkError struct {
 	this Model
 	that Model
+	name LinkName
 	link Link
 }
 
 func (e *LinkError) Error() string {
-	return fmt.Sprintf("%T could not be linked to %T according to %+v", e.this, e.that, e.link)
+	return fmt.Sprintf("%T could not be linked to %T according to %s: %+v", e.this, e.that, e.name, e.link)
 }
 
-func NewLinkError(ts Model, tt Model, l Link) *LinkError {
+func NewLinkError(ts Model, tt Model, n LinkName, l Link) *LinkError {
 	return &LinkError{
 		this: ts,
 		that: tt,
+		name: n,
 		link: l,
 	}
 }

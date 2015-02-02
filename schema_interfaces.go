@@ -5,13 +5,13 @@ import (
 )
 
 type Linker interface {
-	Link(Model, Model) error
-	Unlink(Model, Model) error
+	Link(Model, Model, LinkName) error
+	Unlink(Model, Model, LinkName) error
 }
 
 type Linkable interface {
-	Link(Model, Link) error
-	Unlink(Model, Link) error
+	Link(Model, LinkName, Link) error
+	Unlink(Model, LinkName, Link) error
 }
 
 type Validateable interface {

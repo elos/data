@@ -6,7 +6,7 @@ func Compatible(this Model, that Model) bool {
 	return this.DBType() == that.DBType()
 }
 
-func possibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
+func possibleLink(s *RelationshipMap, this Model, n LinkName) (bool, error) {
 	thisKind := this.Kind()
 
 	links, ok := (*s)[thisKind]
@@ -15,9 +15,7 @@ func possibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
 		return false, ErrUndefinedKind
 	}
 
-	otherKind := other.Kind()
-
-	_, linkPossible := links[otherKind]
+	_, linkPossible := links[n]
 
 	if !linkPossible {
 		return false, ErrUndefinedLink
@@ -26,36 +24,40 @@ func possibleLink(s *RelationshipMap, this Model, other Model) (bool, error) {
 	return true, nil
 }
 
-func (s *RelationshipMap) linkFor(this Model, other Model) (Link, error) {
-	_, err := possibleLink(s, this, other)
+func (s *RelationshipMap) linkFor(this Model, n LinkName) (Link, error) {
+	_, err := possibleLink(s, this, n)
 	if err != nil {
 		return *new(Link), err
 	}
 
-	return (*s)[this.Kind()][other.Kind()], nil
+	return (*s)[this.Kind()][n], nil
 }
 
-func (s *RelationshipMap) Link(this Model, that Model) error {
-	if !Compatible(this, that) {
+func (s *RelationshipMap) Link(this Model, other Model, n LinkName) error {
+	if !Compatible(this, other) {
 		return ErrIncompatibleModels
 	}
 
-	thisLink, err := s.linkFor(this, that)
+	thisLink, err := s.linkFor(this, n)
 
 	if err != nil {
 		return err
 	} else {
-		if err = this.Link(that, thisLink); err != nil {
+		if err = this.Link(other, n, thisLink); err != nil {
 			return err
 		}
 	}
 
-	thatLink, err := s.linkFor(that, this)
+	if thisLink.Inverse == "" {
+		return nil
+	}
+
+	otherLink, err := s.linkFor(other, thisLink.Inverse)
 
 	if err != nil {
 		return err
 	} else {
-		if err = that.Link(this, thatLink); err != nil {
+		if err = other.Link(this, thisLink.Inverse, otherLink); err != nil {
 			return err
 		}
 	}
@@ -63,27 +65,31 @@ func (s *RelationshipMap) Link(this Model, that Model) error {
 	return nil
 }
 
-func (s *RelationshipMap) Unlink(this Model, that Model) error {
-	if !Compatible(this, that) {
+func (s *RelationshipMap) Unlink(this Model, other Model, n LinkName) error {
+	if !Compatible(this, other) {
 		return ErrIncompatibleModels
 	}
 
-	thisLink, err := s.linkFor(this, that)
+	thisLink, err := s.linkFor(this, n)
 
 	if err != nil {
 		return err
 	} else {
-		if err = this.Unlink(that, thisLink); err != nil {
+		if err = this.Unlink(other, n, thisLink); err != nil {
 			return err
 		}
 	}
 
-	thatLink, err := s.linkFor(that, this)
+	if thisLink.Inverse == "" {
+		return nil
+	}
+
+	otherLink, err := s.linkFor(other, thisLink.Inverse)
 
 	if err != nil {
 		return err
 	} else {
-		if err = that.Unlink(this, thatLink); err != nil {
+		if err = other.Unlink(this, thisLink.Inverse, otherLink); err != nil {
 			return err
 		}
 	}
