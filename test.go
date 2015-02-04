@@ -123,7 +123,7 @@ func (db *TestDB) shouldError() bool {
 
 // TestDB }}}
 
-// NullSchema {{{
+// TestSchema {{{
 
 type TestSchema struct {
 	Schema
@@ -135,7 +135,7 @@ func NewTestSchema() *TestSchema {
 	}
 }
 
-// NullSchema }}}
+// TestSchema }}}
 
 // TestStore {{{
 
