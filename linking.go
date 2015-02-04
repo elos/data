@@ -43,7 +43,7 @@ func (s *RelationshipMap) Link(this Model, other Model, n LinkName) error {
 	if err != nil {
 		return err
 	} else {
-		if err = this.Link(other, n, thisLink); err != nil {
+		if err = this.Link(other, thisLink); err != nil {
 			return err
 		}
 	}
@@ -57,7 +57,7 @@ func (s *RelationshipMap) Link(this Model, other Model, n LinkName) error {
 	if err != nil {
 		return err
 	} else {
-		if err = other.Link(this, thisLink.Inverse, otherLink); err != nil {
+		if err = other.Link(this, otherLink); err != nil {
 			return err
 		}
 	}
@@ -75,7 +75,7 @@ func (s *RelationshipMap) Unlink(this Model, other Model, n LinkName) error {
 	if err != nil {
 		return err
 	} else {
-		if err = this.Unlink(other, n, thisLink); err != nil {
+		if err = this.Unlink(other, thisLink); err != nil {
 			return err
 		}
 	}
@@ -89,7 +89,7 @@ func (s *RelationshipMap) Unlink(this Model, other Model, n LinkName) error {
 	if err != nil {
 		return err
 	} else {
-		if err = other.Unlink(this, thisLink.Inverse, otherLink); err != nil {
+		if err = other.Unlink(this, otherLink); err != nil {
 			return err
 		}
 	}

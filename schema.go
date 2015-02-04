@@ -13,6 +13,7 @@ const (
 )
 
 type Link struct {
+	Name    LinkName
 	Kind    LinkKind
 	Other   Kind
 	Inverse LinkName

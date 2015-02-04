@@ -10,8 +10,8 @@ type Linker interface {
 }
 
 type Linkable interface {
-	Link(Model, LinkName, Link) error
-	Unlink(Model, LinkName, Link) error
+	Link(Model, Link) error
+	Unlink(Model, Link) error
 }
 
 type Validateable interface {

@@ -46,12 +46,22 @@ var _ = Describe("Errors", func() {
 		It("Defines AttError", func() {
 			Expect(AttrError{}).NotTo(BeNil())
 		})
+
+		It("Defines LinkError", func() {
+			Expect(LinkError{}).NotTo(BeNil())
+		})
 	})
 
 	Describe("NewAttrError", func() {
 		It("Prints correctly", func() {
 			e := NewAttrError("first", "second")
 			Expect(e.Error()).To(Equal("attribute first must second"))
+		})
+	})
+
+	Describe("NewLinkError", func() {
+		It("Prints correclty", func() {
+			// implement
 		})
 	})
 
