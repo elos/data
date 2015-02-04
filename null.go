@@ -87,6 +87,7 @@ func NewNullSchema() *nullSchema {
 type nullStore struct {
 	*nullDB
 	*nullSchema
+	dbType DBType
 }
 
 func (s *nullStore) Register(k Kind, c ModelConstructor) {
@@ -101,10 +102,26 @@ func (s *nullStore) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
 	return nil, nil
 }
 
+func (s *nullStore) Type() DBType {
+	if s.dbType == "" {
+		return s.nullDB.Type()
+	}
+
+	return s.dbType
+}
+
 func NewNullStore() Store {
 	return &nullStore{
 		nullDB:     NewNullDB(),
 		nullSchema: NewNullSchema(),
+	}
+}
+
+func NewNullStoreWithType(t DBType) Store {
+	return &nullStore{
+		nullDB:     NewNullDB(),
+		nullSchema: NewNullSchema(),
+		dbType:     t,
 	}
 }
 
