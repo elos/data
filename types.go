@@ -15,6 +15,18 @@ type Kind string
 //	{ <kind>: { ... info ... } }
 type KindMap map[Kind]Record
 
+/*
+	Returns a map like:
+	{ user: { Name: "Nick Landolfi"} }
+	of form:
+	{ <db.Kind>: <db.Model>}
+*/
+func Map(r Record) KindMap {
+	return KindMap{
+		r.Kind(): r,
+	}
+}
+
 // An AttrMap is the type used to
 // populate a Record's fields.
 type AttrMap map[string]interface{}
