@@ -1,8 +1,6 @@
 package mongo
 
-import (
-	"github.com/elos/server/util/logging"
-)
+import "github.com/elos/stack/util/logging"
 
 const ServiceName string = "mongo"
 
