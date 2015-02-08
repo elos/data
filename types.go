@@ -35,8 +35,8 @@ type AttrMap map[string]interface{}
 type ChangeKind int
 
 const (
-	// Update is the ChangeKind triggered on a save.
-	// As such  it covers boths creation and modification.
+	// Update is the ChangeKind triggered on a save;
+	// As such it covers boths creation and modification.
 	Update ChangeKind = 1
 
 	// Delete is the ChangeKind triggered on a delete.

@@ -8,7 +8,7 @@ type RecorderID struct {
 }
 
 func NewRecorderID(s string) *RecorderID {
-	return &RecorderID{value: s}
+	return &RecorderID{value: s, valid: true}
 }
 
 func (id *RecorderID) Valid() bool {
@@ -16,7 +16,7 @@ func (id *RecorderID) Valid() bool {
 }
 
 func (id *RecorderID) SetValidity(v bool) *RecorderID {
-	id.valid = true
+	id.valid = v
 	return id
 }
 
@@ -25,7 +25,7 @@ type RecorderDB struct {
 	ModelUpdates     chan *Change
 	Saved            []Record
 	Deleted          []Record
-	PopulatedById    []Record
+	PopulatedByID    []Record
 	PopulatedByField []Record
 	Err              error
 }
@@ -39,7 +39,7 @@ func (db *RecorderDB) Reset() *RecorderDB {
 	db.ModelUpdates = make(chan *Change)
 	db.Saved = make([]Record, 0)
 	db.Deleted = make([]Record, 0)
-	db.PopulatedById = make([]Record, 0)
+	db.PopulatedByID = make([]Record, 0)
 	db.PopulatedByField = make([]Record, 0)
 	db.Err = nil
 
@@ -102,7 +102,7 @@ func (db *RecorderDB) PopulateByID(r Record) error {
 	}
 
 	recordedPopulateID(r)
-	db.PopulatedById = append(db.PopulatedById, r)
+	db.PopulatedByID = append(db.PopulatedByID, r)
 	return nil
 }
 

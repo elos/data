@@ -1,50 +1,23 @@
-package data_test
+package data
 
-import (
-	. "github.com/elos/data"
+import "testing"
 
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-)
+func TestNullID(t *testing.T) {
+	if NewNullID("").Valid() != true {
+		t.Errorf("NullID should always be valid")
+	}
 
-var _ = Describe("null.go", func() {
+	_ = func() ID { return NewNullID("") }
+}
 
-	// NullID {{{
+func TetNullDB(t *testing.T) {
+	_ = func() DB { return NewNullDB() }
+}
 
-	Describe("NullID", func() {
+func TestNullSchema(t *testing.T) {
+	_ = func() Schema { return NewNullSchema() }
+}
 
-		It("Is always valid", func() {
-			Expect(NewNullID("").Valid()).To(BeTrue())
-		})
-
-		It("Satisfies the ID interface", func() {
-			// Won't compile if NullID fails implementation
-			_ = func() ID { return NewNullID("") }
-		})
-	})
-
-	// NullID }}}
-
-	Describe("NullDB", func() {
-		It("Satisfies the DB interface", func() {
-			// Won't compile if NullDB fails implementation
-			_ = func() DB { return NewNullDB() }
-		})
-
-	})
-
-	Describe("NullSchema", func() {
-		It("Satisfies the Schema interface", func() {
-			// Won't compile if NullSchema fails implementation
-			_ = func() Schema { return NewNullSchema() }
-		})
-	})
-
-	Describe("NullStore", func() {
-		It("Satisfies the Store interface", func() {
-			// Won't compile if NullStore fails implementation
-			_ = func() Store { return NewNullStore() }
-		})
-	})
-
-})
+func TestNullStore(t *testing.T) {
+	_ = func() Store { return NewNullStore() }
+}

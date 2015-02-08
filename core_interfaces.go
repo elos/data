@@ -5,14 +5,18 @@ type ID interface {
 	Valid() bool
 }
 
-type Client interface {
-	ID() ID
-	Kind() Kind
-}
-
 // An Identifiable can be identified by and assigned an ID
 type Identifiable interface {
 	ID() ID
+}
+
+type Kinded interface {
+	Kind() Kind
+}
+
+type Client interface {
+	Identifiable
+	Kinded
 }
 
 /*
