@@ -5,10 +5,14 @@ type ID interface {
 	Valid() bool
 }
 
+type Client interface {
+	ID() ID
+	Kind() Kind
+}
+
 // An Identifiable can be identified by and assigned an ID
 type Identifiable interface {
 	ID() ID
-	SetID(ID)
 }
 
 /*
@@ -19,6 +23,7 @@ type Identifiable interface {
 */
 type Persistable interface {
 	Identifiable
+	SetID(ID)
 	Kind() Kind
 	DBType() DBType
 }
@@ -37,6 +42,15 @@ type Record interface {
 	Persistable
 
 	Concerned() []ID // for model updates
+}
+
+type DBOps interface {
+	Save(Record) error
+	Delete(Record) error
+	PopulateByID(Record) error
+	PopulateByField(string, interface{}, Record) error
+	NewQuery(Kind) Query
+	RegisterForUpdates(Identifiable) *chan *Change
 }
 
 /*
@@ -58,16 +72,9 @@ type DB interface {
 	// Persistence
 	NewID() ID
 	CheckID(ID) error
-	Save(Record) error
-	Delete(Record) error
-	PopulateByID(Record) error
-	PopulateByField(string, interface{}, Record) error
-
-	NewQuery(Kind) Query
-
 	Type() DBType
 
-	RegisterForUpdates(Identifiable) *chan *Change
+	DBOps
 }
 
 // A DBConnection serves as a basic abstraction of

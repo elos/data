@@ -34,6 +34,9 @@ var (
 
 	// ErrIncompatibleModels is used if two models don't have the same DBType
 	ErrIncompatibleModels = errors.New("data error: incompatible models")
+
+	// ErrAccessDenial is used if an Access denial is made
+	ErrAccessDenial = errors.New("access error: denied")
 )
 
 // An AttrError is used when a model fails validation,

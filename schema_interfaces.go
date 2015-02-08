@@ -37,11 +37,17 @@ type Updateable interface {
 	SetUpdatedAt(time.Time)
 }
 
+type Accessable interface {
+	CanRead(Client) bool
+	CanWrite(Client) bool
+}
+
 type Model interface {
 	Record
 	Versioned
 	Validateable
 
+	Accessable
 	Linkable
 	Createable
 	Updateable

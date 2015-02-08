@@ -59,3 +59,14 @@ func (s *store) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
 
 	return m, json.Unmarshal(bytes, m)
 }
+
+func (s *store) RegisteredModels() []Kind {
+	s.Lock()
+	defer s.Unlock()
+	k := make([]Kind, 0)
+	for kind, _ := range s.registered {
+		k = append(k, kind)
+	}
+
+	return k
+}
