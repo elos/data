@@ -2,53 +2,77 @@ package data
 
 import "sync"
 
-type Access interface {
-	Identifiable() Identifiable
-	Store() Store
-
-	SetIdentifiable(Identifiable)
-	SetStore(Store)
-}
-
-type access struct {
-	i Identifiable
-	s Store
+type Access struct {
+	Client
+	Store
 
 	*sync.Mutex
 }
 
-func NewAccess(i Identifiable, s Store) Access {
-	return &access{
-		i:     i,
-		s:     s,
-		Mutex: new(sync.Mutex),
+func NewAccess(c Client, s Store) *Access {
+	return &Access{
+		Client: c,
+		Store:  s,
+		Mutex:  new(sync.Mutex),
 	}
 }
 
-func (a *access) SetIdentifiable(i Identifiable) {
-	a.Lock()
-	defer a.Unlock()
-
-	a.i = i
+func (a *Access) Save(m Model) error {
+	if m.CanWrite(a.Client) {
+		return a.Store.Save(m)
+	} else {
+		return ErrAccessDenial
+	}
 }
 
-func (a *access) Identifiable() Identifiable {
-	a.Lock()
-	defer a.Unlock()
-
-	return a.i
+func (a *Access) Delete(m Model) error {
+	if m.CanWrite(a.Client) {
+		return a.Store.Delete(m)
+	} else {
+		return ErrAccessDenial
+	}
 }
 
-func (a *access) SetStore(s Store) {
-	a.Lock()
-	defer a.Unlock()
+func (a *Access) PopulateByID(m Model) error {
+	// todo optimize
+	temp, err := a.Store.ModelFor(m.Kind())
+	if err != nil {
+		return err
+	}
 
-	a.s = s
+	temp.SetID(m.ID())
+	if err = a.Store.PopulateByID(temp); err != nil {
+		return err
+	}
+
+	if temp.CanRead(a.Client) {
+		return a.Store.PopulateByID(m)
+	} else {
+		return ErrAccessDenial
+	}
 }
 
-func (a *access) Store() Store {
-	a.Lock()
-	defer a.Unlock()
+func (a *Access) PopulateByField(s string, v interface{}, m Model) error {
+	temp, err := a.Store.ModelFor(m.Kind())
+	if err != nil {
+		return err
+	}
 
-	return a.s
+	if err = a.Store.PopulateByField(s, v, temp); err != nil {
+		return err
+	}
+
+	if temp.CanRead(a.Client) {
+		return a.Store.PopulateByField(s, v, temp)
+	} else {
+		return ErrAccessDenial
+	}
+}
+
+func (a *Access) RegisterForUpdates(Identifiable) *chan *Change {
+	return a.Store.RegisterForUpdates(a.Client)
+}
+
+func (a *Access) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
+	return a.Store.Unmarshal(k, attrs)
 }
