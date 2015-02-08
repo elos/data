@@ -19,16 +19,6 @@ type Link struct {
 	Inverse LinkName
 }
 
-func IndexLink(ls []Link, l Link) int {
-	for i, ll := range ls {
-		if l == ll {
-			return i
-		}
-	}
-
-	return -1
-}
-
 type RelationshipMap map[Kind]map[LinkName]Link
 
 func (s *RelationshipMap) valid() bool {
