@@ -85,3 +85,10 @@ func (em *EM) CreatedAt() time.Time {
 func (em *EM) Schema() Schema {
 	return NewNullSchema()
 }
+
+var ExampleLink = &Link{
+	Name:    "example",
+	Kind:    MulLink,
+	Other:   ExampleKind,
+	Inverse: "example's_inverse",
+}
