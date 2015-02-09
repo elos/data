@@ -5,19 +5,20 @@ import (
 	"time"
 )
 
-var a = NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 var falsey = func() bool { return false }
 var c = make(chan Record)
 var m = NewExampleModel()
 var sendToC = func(r Record) { go func() { c <- r }() }
 
 func TestNewAccess(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	if a == nil {
 		t.Errorf("NewAccess should never return nil")
 	}
 }
 
 func TestAccessSave(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	pexampleCanWrite := exampleCanWrite
 	precordedSave := recordedSave
 	defer func() {
@@ -49,6 +50,7 @@ func TestAccessSave(t *testing.T) {
 }
 
 func TestAccessDelete(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	defer func(foo func() bool, bar func(r Record)) {
 		exampleCanWrite = foo
 		recordedDelete = bar
@@ -83,6 +85,10 @@ func TestAccessDelete(t *testing.T) {
 }
 
 func TestAccessPopulateByID(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
+		t.Errorf("PopulateByField should choke on kind")
+	}
 	a.Store.Register(ExampleKind, NewEM)
 	pID := recordedPopulateByID
 	pCR := exampleCanRead
@@ -121,6 +127,12 @@ func TestAccessPopulateByID(t *testing.T) {
 }
 
 func TestAccessPopulateByField(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+
+	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
+		t.Errorf("PopulateByField should choke on kind")
+	}
+
 	a.Store.Register(ExampleKind, NewEM)
 	defer func(foo func() bool, bar func(string, interface{}, Record)) {
 		exampleCanRead = foo
@@ -151,5 +163,29 @@ func TestAccessPopulateByField(t *testing.T) {
 
 	if err := a.PopulateByField("foo", "barr", m); err != ErrAccessDenial {
 		t.Errorf("PopulateByField should now deny access")
+	}
+}
+
+func TestAccessRegisterForUpdates(t *testing.T) {
+	db := NewRecorderDB()
+	a := NewAccess(NewExampleModel(), NewRecorderStore(db, NewNullSchema()))
+
+	if foo := a.RegisterForUpdates(NewExampleModel()); *foo != db.ModelUpdates {
+		t.Errorf("Access register for updates failed")
+	}
+}
+
+func TestAccessUnmarshal(t *testing.T) {
+	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a.Register(ExampleKind, NewEM)
+
+	attrs := AttrMap{
+		"hello": "nick",
+	}
+
+	m, _ := a.Unmarshal(ExampleKind, attrs)
+
+	if m.(*EM).Hello != "nick" {
+		t.Errorf("Access Unmarshal failed")
 	}
 }
