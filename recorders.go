@@ -101,7 +101,7 @@ func (db *RecorderDB) PopulateByID(r Record) error {
 		return db.Err
 	}
 
-	recordedPopulateID(r)
+	recordedPopulateByID(r)
 	db.PopulatedByID = append(db.PopulatedByID, r)
 	return nil
 }
@@ -126,7 +126,7 @@ func (db *RecorderDB) RegisterForUpdates(a Identifiable) *chan *Change {
 
 var recordedSave = func(r Record) {}
 var recordedDelete = func(r Record) {}
-var recordedPopulateID = func(r Record) {}
+var recordedPopulateByID = func(r Record) {}
 var recordedPopulateByField = func(s string, v interface{}, r Record) {}
 
 type RecorderSchema struct {
