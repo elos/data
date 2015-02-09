@@ -63,7 +63,7 @@ func (a *Access) PopulateByField(s string, v interface{}, m Model) error {
 	}
 
 	if temp.CanRead(a.Client) {
-		return a.Store.PopulateByField(s, v, temp)
+		return a.Store.PopulateByField(s, v, m)
 	} else {
 		return ErrAccessDenial
 	}
