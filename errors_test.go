@@ -1,6 +1,7 @@
 package data
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -14,5 +15,14 @@ func TestNewAttrError(t *testing.T) {
 }
 
 func TestNewLinkError(t *testing.T) {
-	// implement
+	m1 := NewExampleModel()
+	m1.Hello = "one"
+	m2 := NewExampleModel()
+	m2.Hello = "two"
+
+	e := NewLinkError(m1, m2, *ExampleLink)
+
+	if !strings.Contains(e.Error(), "could not be linked") {
+		t.Errorf("Something is wrong with LinkError")
+	}
 }
