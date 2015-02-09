@@ -15,7 +15,7 @@ func TestNullDB(t *testing.T) {
 
 	db := NewNullDB()
 
-	if db.Type() != nullDBType {
+	if db.Type() != NullDBType {
 		t.Errorf("Type() failed")
 	}
 
@@ -30,7 +30,7 @@ func TestNullDB(t *testing.T) {
 	}
 
 	id := db.NewID()
-	id, ok := id.(nullID)
+	id, ok := id.(NullID)
 	if !ok || id == nil {
 		t.Errorf("NewID should return a nullId")
 	}
@@ -77,7 +77,7 @@ func TestNullStore(t *testing.T) {
 		t.Errorf("NewNullStore should not return nil")
 	}
 
-	if s.Type() != nullDBType {
+	if s.Type() != NullDBType {
 		t.Errorf("Type should be nullDBType")
 	}
 
