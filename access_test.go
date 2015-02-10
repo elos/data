@@ -5,6 +5,23 @@ import (
 	"time"
 )
 
+func TestAnonAccess(t *testing.T) {
+	a := NewAnonAccess(NewNullStore())
+	if a.Client != AnonClient {
+		t.Errorf("AnonAccess's client should be the AnonClient")
+	}
+
+	a2 := NewAnonAccess(NewNullStore())
+	if a.Client != a2.Client {
+		t.Errorf("All AnonAccess's should share a single AnonClient")
+	}
+
+	id := a.ID()
+	if id == nil {
+		t.Errorf("ID should be non-nil")
+	}
+}
+
 var falsey = func() bool { return false }
 var c = make(chan Record)
 var m = NewExampleModel()

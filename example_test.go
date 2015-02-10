@@ -60,12 +60,15 @@ func (em *EM) CanWrite(c Client) bool {
 	return exampleCanWrite()
 }
 
+var exampleLink = func(m Model, l Link) error { return nil }
+var exampleUnlink = func(m Model, l Link) error { return nil }
+
 func (em *EM) Link(m Model, l Link) error {
-	return nil
+	return exampleLink(m, l)
 }
 
 func (em *EM) Unlink(m Model, l Link) error {
-	return nil
+	return exampleUnlink(m, l)
 }
 
 func (em *EM) SetCreatedAt(t time.Time) {
