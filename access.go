@@ -2,6 +2,25 @@ package data
 
 import "sync"
 
+const Anonymous Kind = "anonymous"
+
+type anonClient NullID
+
+func (a anonClient) ID() ID {
+	return NullID(a)
+}
+
+func (a anonClient) Kind() Kind {
+	return Anonymous
+}
+
+// only one anon client;
+var AnonClient = anonClient(NewNullID("anon"))
+
+func NewAnonAccess(s Store) *Access {
+	return NewAccess(AnonClient, s)
+}
+
 type Access struct {
 	Client
 	Store
