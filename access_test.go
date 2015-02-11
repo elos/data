@@ -20,6 +20,11 @@ func TestAnonAccess(t *testing.T) {
 	if id == nil {
 		t.Errorf("ID should be non-nil")
 	}
+
+	kind := a.Kind()
+	if kind != Anonymous {
+		t.Errorf("Kind should be Anonymous")
+	}
 }
 
 var falsey = func() bool { return false }
