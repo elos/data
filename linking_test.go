@@ -49,10 +49,6 @@ var (
 )
 
 func TestPossibleLink(t *testing.T) {
-	if r.valid() != true || blankR.valid() != true || badR.valid() != true {
-		t.Errorf("all relationship maps should be valid")
-	}
-
 	ok, err := possibleLink(&blankR, e1, "asdf")
 	if ok != false {
 		t.Errorf("should not be a possibleLink")
