@@ -190,4 +190,11 @@ func TestRecorderSchema(t *testing.T) {
 
 	s.Err = nil
 
+	if r.Link(NewExampleModel(), NewExampleModel(), name) != nil {
+		t.Errorf("Link should have gone through")
+	}
+
+	if r.Unlink(NewExampleModel(), NewExampleModel(), name) != nil {
+		t.Errorf("Unlink should have gone through")
+	}
 }
