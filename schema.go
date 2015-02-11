@@ -21,8 +21,8 @@ type Link struct {
 
 type RelationshipMap map[Kind]map[LinkName]Link
 
+/*
 func (s *RelationshipMap) valid() bool {
-	/*
 		for outerKind, links := range *s {
 			for innerKind, _ /*linkKind := range links {
 				innerLinks, ok := (*s)[innerKind]
@@ -37,7 +37,6 @@ func (s *RelationshipMap) valid() bool {
 				}
 			}
 		}
-	*/
 
 	// We used to do complex edge checking, to see that every relation had
 	// one which was complimentary, that is now considered over-determined
@@ -46,6 +45,7 @@ func (s *RelationshipMap) valid() bool {
 
 	return true
 }
+*/
 
 type versionedRelationshipMap struct {
 	*RelationshipMap
@@ -60,9 +60,11 @@ func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 		version:         version,
 	}
 
-	if !s.valid() {
-		return nil, ErrInvalidSchema
-	}
+	/*
+		if !s.valid() {
+			return nil, ErrInvalidSchema
+		}
+	*/
 
 	return s, nil
 }
