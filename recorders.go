@@ -146,11 +146,6 @@ func NewRecorderSchema(rm *RelationshipMap, version int) (*RecorderSchema, error
 	}, nil
 }
 
-func (s *RecorderSchema) SetError(e error) *RecorderSchema {
-	s.Err = e
-	return s
-}
-
 func (s *RecorderSchema) Link(this Model, that Model, n LinkName) error {
 	if s.Err != nil {
 		return s.Err

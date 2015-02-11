@@ -79,6 +79,56 @@ func TestRecorderDB(t *testing.T) {
 		t.Errorf("RecorderDBType should be %s", RecorderDBType)
 	}
 
+	db.Reset()
+	if !testStartRecorderDBCleanState(t, db) {
+		t.Errorf("TestRecorder reset failed to get to good state")
+	}
+
+	testError := errors.New("adfs")
+	db.Err = testError
+
+	if db.Connect("adsf") != testError {
+		t.Errorf("Connect should return testError")
+	}
+
+	em := NewExampleModel()
+	if db.Save(em) != testError {
+		t.Errorf("Save should return testError")
+	}
+	if len(db.Saved) != 0 {
+		t.Errorf("The model shouldn't have been saved")
+	}
+
+	if db.Delete(em) != testError {
+		t.Errorf("Delete should return testError")
+	}
+	if len(db.Deleted) != 0 {
+		t.Errorf("The model shouldn't have been deleted")
+	}
+
+	if db.PopulateByID(em) != testError {
+		t.Errorf("PopulateByID should return testError")
+	}
+	if len(db.PopulatedByID) != 0 {
+		t.Errorf("The model shouldn't have been populatedbyid")
+	}
+
+	if db.PopulateByField("asdf", "asdf", em) != testError {
+		t.Errorf("PopulateByField should return testError")
+	}
+	if len(db.PopulatedByField) != 0 {
+		t.Errorf("The model shouldn't have been populatedbyfield")
+	}
+
+	db.Reset()
+	if !testStartRecorderDBCleanState(t, db) {
+		t.Errorf("TestRecorder reset failed to get to good state")
+	}
+
+	if db.NewQuery(ExampleKind) != nil {
+		t.Errorf("Query should just return nil for now")
+	}
+
 	// after all
 	db.Reset()
 	if !testStartRecorderDBCleanState(t, db) {
@@ -119,4 +169,25 @@ func testStartRecorderDBCleanState(t *testing.T, db *RecorderDB) (pass bool) {
 	}
 
 	return
+}
+
+func TestRecorderSchema(t *testing.T) {
+	s, err := NewRecorderSchema(&r, 1)
+	if s == nil || err != nil {
+		t.Errorf("NewRecorderSchema shouldn't error")
+	}
+
+	testError := errors.New("asdf")
+	s.Err = testError
+
+	if s.Link(NewExampleModel(), NewExampleModel(), "asdfasdFasf") != testError {
+		t.Errorf("Link should return test error")
+	}
+
+	if s.Unlink(NewExampleModel(), NewExampleModel(), "Asdf") != testError {
+		t.Errorf("Unlink should return test error")
+	}
+
+	s.Err = nil
+
 }
