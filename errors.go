@@ -9,6 +9,10 @@ var (
 	// ErrNotFound is used if a Record is not retrievable.
 	ErrNotFound = errors.New("data error: record not found")
 
+	// ErrNoConnection is used if the underlying database has not yet
+	// connected to, or has lost connection with the DBMS
+	ErrNoConnection = errors.New("data error: no database connection")
+
 	// ErrInvalidID is used if a type assertion on a Records's ID fails
 	// the DB's implementation.
 	ErrInvalidID = errors.New("data error: invalid id")

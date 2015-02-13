@@ -192,7 +192,7 @@ func TestAccessRegisterForUpdates(t *testing.T) {
 	db := NewRecorderDB()
 	a := NewAccess(NewExampleModel(), NewRecorderStore(db, NewNullSchema()))
 
-	if foo := a.RegisterForUpdates(NewExampleModel()); *foo != db.ModelUpdates {
+	if foo := a.RegisterForChanges(); *foo != db.ModelUpdates {
 		t.Errorf("Access register for updates failed")
 	}
 }

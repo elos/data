@@ -32,7 +32,7 @@ func (db *NullDB) Connect(addr string) error {
 	return nil
 }
 
-func (db *NullDB) RegisterForUpdates(a Identifiable) *chan *Change {
+func (db *NullDB) RegisterForChanges(client Client) *chan *Change {
 	c := make(chan *Change)
 	return &c
 }

@@ -88,8 +88,8 @@ func (a *Access) PopulateByField(s string, v interface{}, m Model) error {
 	}
 }
 
-func (a *Access) RegisterForUpdates(Identifiable) *chan *Change {
-	return a.Store.RegisterForUpdates(a.Client)
+func (a *Access) RegisterForChanges() *chan *Change {
+	return a.Store.RegisterForChanges(a.Client)
 }
 
 func (a *Access) Unmarshal(k Kind, attrs AttrMap) (Model, error) {

@@ -46,7 +46,8 @@ func (em *EM) Concerned() []ID {
 	return make([]ID, 0)
 }
 
-func (em *EM) SetID(ID) {
+func (em *EM) SetID(ID) error {
+	return nil
 }
 
 var exampleCanRead = func() bool { return true }

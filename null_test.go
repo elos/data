@@ -23,7 +23,7 @@ func TestNullDB(t *testing.T) {
 		t.Errorf("Connect should return nil")
 	}
 
-	updates := db.RegisterForUpdates(NewExampleModel())
+	updates := db.RegisterForChanges(NewExampleModel())
 
 	if updates == nil {
 		t.Errorf("RegisterForUpdates should return a real non-null channel")

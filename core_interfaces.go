@@ -1,5 +1,7 @@
 package data
 
+import "sync"
+
 // ID is a generic interface for working with IDs
 type ID interface {
 	Valid() bool
@@ -27,7 +29,7 @@ type Client interface {
 */
 type Persistable interface {
 	Identifiable
-	SetID(ID)
+	SetID(ID) error
 	Kind() Kind
 	DBType() DBType
 }
@@ -54,7 +56,7 @@ type DBOps interface {
 	PopulateByID(Record) error
 	PopulateByField(string, interface{}, Record) error
 	NewQuery(Kind) Query
-	RegisterForUpdates(Identifiable) *chan *Change
+	RegisterForChanges(Client) *chan *Change
 }
 
 /*
@@ -79,15 +81,6 @@ type DB interface {
 	Type() DBType
 
 	DBOps
-}
-
-// A DBConnection serves as a basic abstraction of
-// the connection underlying a DB
-// FIXME: may be deprecated as the connection is
-// implementation specific and the DBConnection type
-// is exposed nowhere in the DB interface
-type DBConnection interface {
-	Close()
 }
 
 /*
@@ -120,4 +113,6 @@ type Query interface {
 type RecordIterator interface {
 	Next(Record) bool
 	Close() error
+
+	sync.Locker
 }

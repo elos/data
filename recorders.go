@@ -120,7 +120,7 @@ func (db *RecorderDB) NewQuery(k Kind) Query {
 	return nil
 }
 
-func (db *RecorderDB) RegisterForUpdates(a Identifiable) *chan *Change {
+func (db *RecorderDB) RegisterForChanges(client Client) *chan *Change {
 	return &db.ModelUpdates
 }
 
