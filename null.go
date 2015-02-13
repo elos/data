@@ -1,5 +1,7 @@
 package data
 
+import "time"
+
 // NullID {{{
 
 type NullID string
@@ -67,7 +69,7 @@ func (db *NullDB) NewQuery(k Kind) Query {
 
 // NullDB }}}
 
-// NullSchema {{{
+// NullSchnma {{{
 
 type NullSchema struct {
 	Schema
@@ -80,7 +82,7 @@ func NewNullSchema() *NullSchema {
 	}
 }
 
-// NullSchema }}}
+// NullSchnma }}}
 
 // NullStore {{{
 
@@ -126,3 +128,111 @@ func NewNullStoreWithType(t DBType) *NullStore {
 }
 
 // NullStore }}}
+
+// NullModel {{{
+var NullKind Kind = "null"
+
+type NM struct {
+	String string
+	Int    int
+	kind   Kind
+	dbtype DBType
+	id     ID
+}
+
+func NewNullModel() *NM {
+	return &NM{
+		kind:   NullKind,
+		dbtype: NullDBType,
+		id:     NewNullID("example"),
+	}
+}
+
+// Model Constructor
+func NewNM(s Store) (Model, error) {
+	return NewNullModel(), nil
+}
+
+func (nm *NM) DBType() DBType {
+	return nm.dbtype
+}
+
+func (nm *NM) Kind() Kind {
+	return nm.kind
+}
+
+func (nm *NM) SetKind(k Kind) {
+	nm.kind = k
+}
+
+func (nm *NM) SetDBType(t DBType) {
+	nm.dbtype = t
+}
+
+func (nm *NM) ID() ID {
+	return nm.id
+}
+
+func (nm *NM) Version() int {
+	return 0
+}
+
+func (nm *NM) Valid() bool {
+	return true
+}
+
+func (nm *NM) Concerned() []ID {
+	return make([]ID, 0)
+}
+
+func (nm *NM) SetID(id ID) error {
+	nm.id = id
+	return nil
+}
+
+var exampleCanRead = func() bool { return true }
+var exampleCanWrite = func() bool { return true }
+
+func (nm *NM) CanRead(c Client) bool {
+	return exampleCanRead()
+}
+
+func (nm *NM) CanWrite(c Client) bool {
+	return exampleCanWrite()
+}
+
+var exampleLink = func(m Model, l Link) error { return nil }
+var exampleUnlink = func(m Model, l Link) error { return nil }
+
+func (nm *NM) Link(m Model, l Link) error {
+	return exampleLink(m, l)
+}
+
+func (nm *NM) Unlink(m Model, l Link) error {
+	return exampleUnlink(m, l)
+}
+
+func (nm *NM) SetCreatedAt(t time.Time) {
+}
+
+func (nm *NM) SetUpdatedAt(t time.Time) {
+}
+
+func (nm *NM) UpdatedAt() time.Time {
+	return time.Now()
+}
+
+func (nm *NM) CreatedAt() time.Time {
+	return time.Now()
+}
+
+func (nm *NM) Schema() Schema {
+	return NewNullSchema()
+}
+
+var NullLink = &Link{
+	Name:    "example",
+	Kind:    MulLink,
+	Other:   NullKind,
+	Inverse: "null's_inverse",
+}

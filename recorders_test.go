@@ -91,7 +91,7 @@ func TestRecorderDB(t *testing.T) {
 		t.Errorf("Connect should return testError")
 	}
 
-	em := NewExampleModel()
+	em := NewNullModel()
 	if db.Save(em) != testError {
 		t.Errorf("Save should return testError")
 	}
@@ -125,7 +125,7 @@ func TestRecorderDB(t *testing.T) {
 		t.Errorf("TestRecorder reset failed to get to good state")
 	}
 
-	if db.NewQuery(ExampleKind) != nil {
+	if db.NewQuery(NullKind) != nil {
 		t.Errorf("Query should just return nil for now")
 	}
 
@@ -180,21 +180,21 @@ func TestRecorderSchema(t *testing.T) {
 	testError := errors.New("asdf")
 	s.Err = testError
 
-	if s.Link(NewExampleModel(), NewExampleModel(), "asdfasdFasf") != testError {
+	if s.Link(NewNullModel(), NewNullModel(), "asdfasdFasf") != testError {
 		t.Errorf("Link should return test error")
 	}
 
-	if s.Unlink(NewExampleModel(), NewExampleModel(), "Asdf") != testError {
+	if s.Unlink(NewNullModel(), NewNullModel(), "Asdf") != testError {
 		t.Errorf("Unlink should return test error")
 	}
 
 	s.Err = nil
 
-	if r.Link(NewExampleModel(), NewExampleModel(), name) != nil {
+	if r.Link(NewNullModel(), NewNullModel(), name) != nil {
 		t.Errorf("Link should have gone through")
 	}
 
-	if r.Unlink(NewExampleModel(), NewExampleModel(), name) != nil {
+	if r.Unlink(NewNullModel(), NewNullModel(), name) != nil {
 		t.Errorf("Unlink should have gone through")
 	}
 }

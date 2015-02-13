@@ -29,18 +29,18 @@ func TestAnonAccess(t *testing.T) {
 
 var falsey = func() bool { return false }
 var c = make(chan Record)
-var m = NewExampleModel()
+var m = NewNullModel()
 var sendToC = func(r Record) { go func() { c <- r }() }
 
 func TestNewAccess(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	if a == nil {
 		t.Errorf("NewAccess should never return nil")
 	}
 }
 
 func TestAccessSave(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	pexampleCanWrite := exampleCanWrite
 	precordedSave := recordedSave
 	defer func() {
@@ -56,7 +56,7 @@ func TestAccessSave(t *testing.T) {
 
 	select {
 	case mm := <-c:
-		mm, ok := mm.(*EM)
+		mm, ok := mm.(*NM)
 		if !ok {
 			t.Errorf("Model should have been sent through c")
 		}
@@ -72,7 +72,7 @@ func TestAccessSave(t *testing.T) {
 }
 
 func TestAccessDelete(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	defer func(foo func() bool, bar func(r Record)) {
 		exampleCanWrite = foo
 		recordedDelete = bar
@@ -86,12 +86,12 @@ func TestAccessDelete(t *testing.T) {
 
 	select {
 	case mm := <-c:
-		mm, ok := mm.(*EM)
+		mm, ok := mm.(*NM)
 		if !ok {
 			t.Errorf("Model should have been sent through c")
 		}
 
-		if mm.(*EM) != m {
+		if mm.(*NM) != m {
 			t.Errorf("Model sent should be the same deleted")
 		}
 	case <-time.After(10 * time.Millisecond):
@@ -107,11 +107,11 @@ func TestAccessDelete(t *testing.T) {
 }
 
 func TestAccessPopulateByID(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
 		t.Errorf("PopulateByField should choke on kind")
 	}
-	a.Store.Register(ExampleKind, NewEM)
+	a.Store.Register(NullKind, NewNM)
 	pID := recordedPopulateByID
 	pCR := exampleCanRead
 	defer func() {
@@ -131,7 +131,7 @@ func TestAccessPopulateByID(t *testing.T) {
 
 	select {
 	case mm := <-c:
-		if mm.(*EM) != m {
+		if mm.(*NM) != m {
 			t.Errorf("Model sent should be the same as populated, got %+v, wanted %+v", mm, m)
 		}
 	case <-time.After(10 * time.Millisecond):
@@ -149,13 +149,13 @@ func TestAccessPopulateByID(t *testing.T) {
 }
 
 func TestAccessPopulateByField(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 
 	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
 		t.Errorf("PopulateByField should choke on kind")
 	}
 
-	a.Store.Register(ExampleKind, NewEM)
+	a.Store.Register(NullKind, NewNM)
 	defer func(foo func() bool, bar func(string, interface{}, Record)) {
 		exampleCanRead = foo
 		recordedPopulateByField = bar
@@ -174,7 +174,7 @@ func TestAccessPopulateByField(t *testing.T) {
 
 	select {
 	case mm := <-c:
-		if mm.(*EM) != m {
+		if mm.(*NM) != m {
 			t.Errorf("Model sent should be the same as populated, got %+v, wanted %+v", mm, m)
 		}
 	case <-time.After(10 * time.Millisecond):
@@ -190,7 +190,7 @@ func TestAccessPopulateByField(t *testing.T) {
 
 func TestAccessRegisterForUpdates(t *testing.T) {
 	db := NewRecorderDB()
-	a := NewAccess(NewExampleModel(), NewRecorderStore(db, NewNullSchema()))
+	a := NewAccess(NewNullModel(), NewRecorderStore(db, NewNullSchema()))
 
 	if foo := a.RegisterForChanges(); *foo != db.ModelUpdates {
 		t.Errorf("Access register for updates failed")
@@ -198,16 +198,16 @@ func TestAccessRegisterForUpdates(t *testing.T) {
 }
 
 func TestAccessUnmarshal(t *testing.T) {
-	a := NewAccess(NewExampleModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
-	a.Register(ExampleKind, NewEM)
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	a.Register(NullKind, NewNM)
 
 	attrs := AttrMap{
-		"hello": "nick",
+		"string": "nick",
 	}
 
-	m, _ := a.Unmarshal(ExampleKind, attrs)
+	m, _ := a.Unmarshal(NullKind, attrs)
 
-	if m.(*EM).Hello != "nick" {
+	if m.(*NM).String != "nick" {
 		t.Errorf("Access Unmarshal failed")
 	}
 }

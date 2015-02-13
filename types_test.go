@@ -5,16 +5,16 @@ import (
 )
 
 func TestMap(t *testing.T) {
-	e := NewExampleModel()
+	e := NewNullModel()
 	kmap := Map(e)
 
-	if kmap[ExampleKind] != e {
+	if kmap[NullKind] != e {
 		t.Errorf("TestMap failed")
 	}
 }
 
 func TestNewChange(t *testing.T) {
-	e := NewExampleModel()
+	e := NewNullModel()
 	c := NewChange(Update, e)
 
 	if c.ChangeKind != Update || c.Record != e {

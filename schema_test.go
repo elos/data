@@ -6,11 +6,11 @@ import (
 
 func TestSchema(t *testing.T) {
 	r := RelationshipMap{
-		ExampleKind: {
+		NullKind: {
 			"name": Link{
 				Name:    "link",
 				Kind:    MulLink,
-				Other:   ExampleKind,
+				Other:   NullKind,
 				Inverse: "name",
 			},
 		},

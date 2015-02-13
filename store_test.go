@@ -21,9 +21,9 @@ func TestStore(t *testing.T) {
 		t.Errorf("A new store should not have any registered models")
 	}
 
-	s.Register(ExampleKind, NewEM)
+	s.Register(NullKind, NewNM)
 
-	if len(s.RegisteredModels()) != 1 || s.RegisteredModels()[0] != ExampleKind {
+	if len(s.RegisteredModels()) != 1 || s.RegisteredModels()[0] != NullKind {
 		t.Errorf("Register failed??")
 	}
 
@@ -37,8 +37,8 @@ func TestStore(t *testing.T) {
 		go func(i int) {
 			time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
 
-			k := Kind(string(ExampleKind) + " " + strconv.Itoa(i))
-			s.Register(k, NewEM)
+			k := Kind(string(NullKind) + " " + strconv.Itoa(i))
+			s.Register(k, NewNM)
 			wg.Done()
 			c <- k
 		}(i)
@@ -66,14 +66,14 @@ func TestStore(t *testing.T) {
 	// end Concurrent registering
 
 	// ModelFor
-	m, err := s.ModelFor(ExampleKind)
+	m, err := s.ModelFor(NullKind)
 	if m == nil {
-		t.Errorf("ModelFor ExampleKind should give me the example model")
+		t.Errorf("ModelFor NullKind should give me the example model")
 	}
 	if err != nil {
 		t.Errorf("ModelFor returned an error: %s", err)
 	}
-	m, ok := m.(*EM)
+	m, ok := m.(*NM)
 	if !ok {
 		t.Errorf("ModelFor returned a model of the wrong type")
 	}
@@ -94,11 +94,11 @@ func TestStore(t *testing.T) {
 	hello := "world"
 	world := 11
 	attrs := AttrMap{
-		"hello": hello,
-		"world": world,
+		"string": hello,
+		"int":    world,
 	}
 
-	m, err = s.Unmarshal(ExampleKind, attrs)
+	m, err = s.Unmarshal(NullKind, attrs)
 
 	if m == nil {
 		t.Errorf("model shoul dnot be nil")
@@ -108,13 +108,13 @@ func TestStore(t *testing.T) {
 		t.Errorf("Should be no error")
 	}
 
-	m, ok = m.(*EM)
+	m, ok = m.(*NM)
 	if !ok {
 		t.Errorf("Unmarshal screwed up model type")
 	}
 
 	// if you've been following along, this is the amazing part
-	if m.(*EM).Hello != hello || m.(*EM).World != world {
+	if m.(*NM).String != hello || m.(*NM).Int != world {
 		t.Errorf("Unmarshal failed")
 	}
 

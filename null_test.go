@@ -23,7 +23,7 @@ func TestNullDB(t *testing.T) {
 		t.Errorf("Connect should return nil")
 	}
 
-	updates := db.RegisterForChanges(NewExampleModel())
+	updates := db.RegisterForChanges(NewNullModel())
 
 	if updates == nil {
 		t.Errorf("RegisterForUpdates should return a real non-null channel")
@@ -39,7 +39,7 @@ func TestNullDB(t *testing.T) {
 		t.Errorf("NullDB should always return a non-nil error")
 	}
 
-	r := NewExampleModel()
+	r := NewNullModel()
 
 	if err := db.Save(r); err != nil {
 		t.Errorf("Save should always return a non-nil error")
@@ -57,7 +57,7 @@ func TestNullDB(t *testing.T) {
 		t.Errorf("PopulateByField should always return a non-nil error")
 	}
 
-	if query := db.NewQuery(ExampleKind); query != nil {
+	if query := db.NewQuery(NullKind); query != nil {
 		t.Errorf("Query should always return nil")
 	}
 
@@ -81,15 +81,15 @@ func TestNullStore(t *testing.T) {
 		t.Errorf("Type should be nullDBType")
 	}
 
-	s.Register(ExampleKind, NewEM)
+	s.Register(NullKind, NewNM)
 
-	one, two := s.ModelFor(ExampleKind)
+	one, two := s.ModelFor(NullKind)
 
 	if one != nil || two != nil {
 		t.Errorf("ModelFor should return two nils")
 	}
 
-	one, two = s.Unmarshal(ExampleKind, AttrMap{})
+	one, two = s.Unmarshal(NullKind, AttrMap{})
 
 	if one != nil || two != nil {
 		t.Errorf("Unmarshal should return two nils")

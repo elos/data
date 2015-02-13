@@ -3,7 +3,7 @@ package data
 import "testing"
 
 func TestCompatible(t *testing.T) {
-	if !Compatible(NewExampleModel(), NewExampleModel()) {
+	if !Compatible(NewNullModel(), NewNullModel()) {
 		t.Errorf("ExampleModels should be compatible")
 	}
 }
@@ -11,21 +11,21 @@ func TestCompatible(t *testing.T) {
 var name LinkName = "test"
 
 var r = RelationshipMap{
-	ExampleKind: {
+	NullKind: {
 		name: Link{
 			Name:  name,
 			Kind:  MulLink,
-			Other: ExampleKind,
+			Other: NullKind,
 		},
 	},
 }
 
 var rInverse = RelationshipMap{
-	ExampleKind: {
+	NullKind: {
 		name: Link{
 			Name:    name,
 			Kind:    MulLink,
-			Other:   ExampleKind,
+			Other:   NullKind,
 			Inverse: name,
 		},
 	},
@@ -34,7 +34,7 @@ var rInverse = RelationshipMap{
 var blankR = RelationshipMap{}
 
 var badR = RelationshipMap{
-	ExampleKind: {
+	NullKind: {
 		name: Link{
 			Name:  name,
 			Kind:  MulLink,
@@ -44,8 +44,8 @@ var badR = RelationshipMap{
 }
 
 var (
-	e1 = NewExampleModel()
-	e2 = NewExampleModel()
+	e1 = NewNullModel()
+	e2 = NewNullModel()
 )
 
 func TestPossibleLink(t *testing.T) {
@@ -81,7 +81,7 @@ func TestLinkFor(t *testing.T) {
 	if err != nil {
 		t.Errorf("err should be nil")
 	}
-	if l != r[ExampleKind][name] {
+	if l != r[NullKind][name] {
 		t.Errorf("linkfor did not retrieved the correct link")
 	}
 	// Not that multiple links of the same kind need not be tested as the map
@@ -111,12 +111,12 @@ func TestLink(t *testing.T) {
 
 	pe2 := <-m // note calls link of m1 first (a bit implementation-specific)
 	pe1 := <-m
-	if e2 != pe2.(*EM) || e1 != pe1.(*EM) {
+	if e2 != pe2.(*NM) || e1 != pe1.(*NM) {
 		t.Errorf("Link should call Link on the model with the other model")
 	}
 	pl1 := <-l
 	pl2 := <-l
-	correctLink := rInverse[ExampleKind][name]
+	correctLink := rInverse[NullKind][name]
 	if pl1 != correctLink || pl2 != correctLink {
 		t.Errorf("Link didn't pass correct link")
 	}
@@ -145,12 +145,12 @@ func TestUnlink(t *testing.T) {
 
 	pe2 := <-m // note calls link of m1 first (a bit implementation-specific)
 	pe1 := <-m
-	if e2 != pe2.(*EM) || e1 != pe1.(*EM) {
+	if e2 != pe2.(*NM) || e1 != pe1.(*NM) {
 		t.Errorf("Link should call Link on the model with the other model")
 	}
 	pl1 := <-l
 	pl2 := <-l
-	correctLink := rInverse[ExampleKind][name]
+	correctLink := rInverse[NullKind][name]
 	if pl1 != correctLink || pl2 != correctLink {
 		t.Errorf("Link didn't pass correct link")
 	}

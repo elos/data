@@ -15,12 +15,12 @@ func TestNewAttrError(t *testing.T) {
 }
 
 func TestNewLinkError(t *testing.T) {
-	m1 := NewExampleModel()
-	m1.Hello = "one"
-	m2 := NewExampleModel()
-	m2.Hello = "two"
+	m1 := NewNullModel()
+	m1.String = "one"
+	m2 := NewNullModel()
+	m2.String = "two"
 
-	e := NewLinkError(m1, m2, *ExampleLink)
+	e := NewLinkError(m1, m2, *NullLink)
 
 	if !strings.Contains(e.Error(), "could not be linked") {
 		t.Errorf("Something is wrong with LinkError")
