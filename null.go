@@ -135,8 +135,8 @@ var NullKind Kind = "null"
 type NM struct {
 	String string
 	Int    int
-	kind   Kind
-	dbtype DBType
+	kind   Kind   `json:"-" bson"-"`
+	dbtype DBType `json:"-" bson"-"`
 	id     ID
 }
 
