@@ -15,6 +15,10 @@ func (id *RecorderID) Valid() bool {
 	return id.valid
 }
 
+func (id *RecorderID) String() string {
+	return id.value
+}
+
 func (id *RecorderID) SetValidity(v bool) *RecorderID {
 	id.valid = v
 	return id

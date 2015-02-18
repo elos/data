@@ -14,6 +14,10 @@ func (id NullID) Valid() bool {
 	return true
 }
 
+func (id NullID) String() string {
+	return string(id)
+}
+
 // NullID }}}
 
 // NullDB {{{

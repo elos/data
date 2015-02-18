@@ -4,6 +4,7 @@ import "sync"
 
 // ID is a generic interface for working with IDs
 type ID interface {
+	String() string
 	Valid() bool
 }
 
