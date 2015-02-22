@@ -7,21 +7,21 @@ import (
 
 func TestAnonAccess(t *testing.T) {
 	a := NewAnonAccess(NewNullStore())
-	if a.Client != AnonClient {
+	if a.Client() != AnonClient {
 		t.Errorf("AnonAccess's client should be the AnonClient")
 	}
 
 	a2 := NewAnonAccess(NewNullStore())
-	if a.Client != a2.Client {
+	if a.Client() != a2.Client() {
 		t.Errorf("All AnonAccess's should share a single AnonClient")
 	}
 
-	id := a.ID()
+	id := a.Client().ID()
 	if id == nil {
 		t.Errorf("ID should be non-nil")
 	}
 
-	kind := a.Kind()
+	kind := a.Client().Kind()
 	if kind != Anonymous {
 		t.Errorf("Kind should be Anonymous")
 	}
@@ -111,7 +111,7 @@ func TestAccessPopulateByID(t *testing.T) {
 	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
 		t.Errorf("PopulateByField should choke on kind")
 	}
-	a.Store.Register(NullKind, NewNM)
+	a.Register(NullKind, NewNM)
 	pID := recordedPopulateByID
 	pCR := exampleCanRead
 	defer func() {
@@ -155,7 +155,7 @@ func TestAccessPopulateByField(t *testing.T) {
 		t.Errorf("PopulateByField should choke on kind")
 	}
 
-	a.Store.Register(NullKind, NewNM)
+	a.Register(NullKind, NewNM)
 	defer func(foo func() bool, bar func(string, interface{}, Record)) {
 		exampleCanRead = foo
 		recordedPopulateByField = bar
@@ -192,7 +192,7 @@ func TestAccessRegisterForUpdates(t *testing.T) {
 	db := NewRecorderDB()
 	a := NewAccess(NewNullModel(), NewRecorderStore(db, NewNullSchema()))
 
-	if foo := a.RegisterForChanges(); *foo != db.ModelUpdates {
+	if foo := a.RegisterForChanges(a.Client()); *foo != db.ModelUpdates {
 		t.Errorf("Access register for updates failed")
 	}
 }

@@ -1,5 +1,7 @@
 package data
 
+import "encoding/json"
+
 // DBType is defined by each implementation of a DB,
 // so that the DB can be semi-identifiable and implement
 // compatibility checking against a Record's declared DBType
@@ -59,4 +61,12 @@ func NewChange(kind ChangeKind, r Record) *Change {
 		ChangeKind: kind,
 		Record:     r,
 	}
+}
+
+func TransferAttrs(this interface{}, that interface{}) error {
+	bytes, err := json.Marshal(this)
+	if err != nil {
+		return nil
+	}
+	return json.Unmarshal(bytes, that)
 }

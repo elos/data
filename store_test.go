@@ -17,13 +17,13 @@ func TestStore(t *testing.T) {
 		t.Errorf("NewStore should never return nil")
 	}
 
-	if len(s.RegisteredModels()) != 0 {
+	if len(s.Registered()) != 0 {
 		t.Errorf("A new store should not have any registered models")
 	}
 
 	s.Register(NullKind, NewNM)
 
-	if len(s.RegisteredModels()) != 1 || s.RegisteredModels()[0] != NullKind {
+	if len(s.Registered()) != 1 || s.Registered()[0] != NullKind {
 		t.Errorf("Register failed??")
 	}
 
@@ -46,12 +46,12 @@ func TestStore(t *testing.T) {
 
 	wg.Wait()
 
-	if len(s.RegisteredModels()) != 11 {
-		t.Errorf("Not all the kinds were registerd, only %d were", len(s.RegisteredModels()))
+	if len(s.Registered()) != 11 {
+		t.Errorf("Not all the kinds were registerd, only %d were", len(s.Registered()))
 	}
 
 	kindsMap := make(map[Kind]bool)
-	for _, k := range s.RegisteredModels() {
+	for _, k := range s.Registered() {
 		kindsMap[k] = true
 	}
 

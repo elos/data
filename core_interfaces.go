@@ -56,7 +56,7 @@ type DBOps interface {
 	Delete(Record) error
 	PopulateByID(Record) error
 	PopulateByField(string, interface{}, Record) error
-	NewQuery(Kind) Query
+	NewQuery(Kind) RecordQuery
 	RegisterForChanges(Client) *chan *Change
 }
 
@@ -93,13 +93,22 @@ type DB interface {
 	an expandable and elegant method of handling n-sized
 	results.
 */
-type Query interface {
+type RecordQuery interface {
 	Execute() (RecordIterator, error)
 
-	Select(AttrMap) Query
-	Limit(int) Query
-	Skip(int) Query
-	Batch(int) Query
+	Select(AttrMap) RecordQuery
+	Limit(int) RecordQuery
+	Skip(int) RecordQuery
+	Batch(int) RecordQuery
+}
+
+type ModelQuery interface {
+	Execute() (ModelIterator, error)
+
+	Select(AttrMap) ModelQuery
+	Limit(int) ModelQuery
+	Skip(int) ModelQuery
+	Batch(int) ModelQuery
 }
 
 /*
@@ -113,6 +122,13 @@ type Query interface {
 */
 type RecordIterator interface {
 	Next(Record) bool
+	Close() error
+
+	sync.Locker
+}
+
+type ModelIterator interface {
+	Next(Model) bool
 	Close() error
 
 	sync.Locker

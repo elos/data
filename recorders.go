@@ -120,7 +120,7 @@ func (db *RecorderDB) PopulateByField(field string, value interface{}, r Record)
 	return nil
 }
 
-func (db *RecorderDB) NewQuery(k Kind) Query {
+func (db *RecorderDB) NewQuery(k Kind) RecordQuery {
 	return nil
 }
 

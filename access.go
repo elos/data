@@ -17,81 +17,114 @@ func (a anonClient) Kind() Kind {
 // only one anon client;
 var AnonClient = anonClient(NewNullID("anon"))
 
-func NewAnonAccess(s Store) *Access {
+type Access interface {
+	Store
+	Client() Client
+}
+
+func NewAnonAccess(s Store) Access {
 	return NewAccess(AnonClient, s)
 }
 
-type Access struct {
-	Client
-	Store
+type access struct {
+	client Client
+	store  Store
 
 	*sync.Mutex
 }
 
-func NewAccess(c Client, s Store) *Access {
-	return &Access{
-		Client: c,
-		Store:  s,
+func NewAccess(c Client, s Store) Access {
+	return &access{
+		client: c,
+		store:  s,
 		Mutex:  new(sync.Mutex),
 	}
 }
 
-func (a *Access) Save(m Model) error {
-	if m.CanWrite(a.Client) {
-		return a.Store.Save(m)
+func (a *access) Client() Client {
+	return a.client
+}
+
+func (a *access) Save(m Model) error {
+	if m.CanWrite(a.client) {
+		return a.store.Save(m)
 	} else {
 		return ErrAccessDenial
 	}
 }
 
-func (a *Access) Delete(m Model) error {
-	if m.CanWrite(a.Client) {
-		return a.Store.Delete(m)
+func (a *access) Delete(m Model) error {
+	if m.CanWrite(a.client) {
+		return a.store.Delete(m)
 	} else {
 		return ErrAccessDenial
 	}
 }
 
-func (a *Access) PopulateByID(m Model) error {
+func (a *access) PopulateByID(m Model) error {
 	// todo optimize
-	temp, err := a.Store.ModelFor(m.Kind())
+	temp, err := a.store.ModelFor(m.Kind())
 	if err != nil {
 		return err
 	}
 
 	temp.SetID(m.ID())
-	if err = a.Store.PopulateByID(temp); err != nil {
+	if err = a.store.PopulateByID(temp); err != nil {
 		return err
 	}
 
-	if temp.CanRead(a.Client) {
-		return a.Store.PopulateByID(m)
+	if temp.CanRead(a.client) {
+		return a.store.PopulateByID(m)
 	} else {
 		return ErrAccessDenial
 	}
 }
 
-func (a *Access) PopulateByField(s string, v interface{}, m Model) error {
-	temp, err := a.Store.ModelFor(m.Kind())
+func (a *access) PopulateByField(s string, v interface{}, m Model) error {
+	temp, err := a.store.ModelFor(m.Kind())
 	if err != nil {
 		return err
 	}
 
-	if err = a.Store.PopulateByField(s, v, temp); err != nil {
+	if err = a.store.PopulateByField(s, v, temp); err != nil {
 		return err
 	}
 
-	if temp.CanRead(a.Client) {
-		return a.Store.PopulateByField(s, v, m)
+	if temp.CanRead(a.client) {
+		return a.store.PopulateByField(s, v, m)
 	} else {
 		return ErrAccessDenial
 	}
 }
 
-func (a *Access) RegisterForChanges() *chan *Change {
-	return a.Store.RegisterForChanges(a.Client)
+func (a *access) RegisterForChanges(c Client) *chan *Change {
+	return a.store.RegisterForChanges(c)
 }
 
-func (a *Access) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
-	return a.Store.Unmarshal(k, attrs)
+func (a *access) Register(k Kind, c ModelConstructor) {
+	a.store.Register(k, c)
+}
+
+func (a *access) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
+	return a.store.Unmarshal(k, attrs)
+}
+
+func (a *access) ModelFor(k Kind) (Model, error) {
+	return a.store.ModelFor(k)
+}
+
+func (a *access) NewID() ID {
+	return a.store.NewID()
+}
+
+func (a *access) Query(k Kind) ModelQuery {
+	return a.store.Query(k)
+}
+
+func (a *access) Registered() []Kind {
+	return a.store.Registered()
+}
+
+func (a *access) Type() DBType {
+	return a.store.Type()
 }

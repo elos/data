@@ -67,7 +67,7 @@ func (db *NullDB) PopulateByField(field string, value interface{}, m Record) err
 	return nil
 }
 
-func (db *NullDB) NewQuery(k Kind) Query {
+func (db *NullDB) NewQuery(k Kind) RecordQuery {
 	return nil
 }
 
@@ -108,12 +108,36 @@ func (s *NullStore) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
 	return nil, nil
 }
 
+func (s *NullStore) Registered() []Kind {
+	return make([]Kind, 0)
+}
+
+func (s *NullStore) Save(m Model) error {
+	return s.NullDB.Save(m)
+}
+
+func (s *NullStore) Delete(m Model) error {
+	return s.NullDB.Delete(m)
+}
+
+func (s *NullStore) PopulateByID(m Model) error {
+	return s.NullDB.PopulateByID(m)
+}
+
+func (s *NullStore) PopulateByField(str string, v interface{}, m Model) error {
+	return s.NullDB.PopulateByField(str, v, m)
+}
+
 func (s *NullStore) Type() DBType {
 	if s.dbType == "" {
 		return s.NullDB.Type()
 	}
 
 	return s.dbType
+}
+
+func (s *NullStore) Query(k Kind) ModelQuery {
+	return nil
 }
 
 func NewNullStore() *NullStore {
