@@ -3,10 +3,6 @@ Data [![GoDoc](https://godoc.org/github.com/elos/data?status.svg)](https://godoc
 
 Data is a high-level package that defines the interfaces needed to effectively implement data stores for go applications.
 
-A Store is very high-level interface that defines the framework for defining an object relation layer for go system applications. Note: this is likely not your traditional concept of an "ORM" persay. It is a much more light-weight.
-
-A store has a schema, essentially a relationship map with validity checking which exposes the Link and Unlink functions to manage the relationships between two "models" of data.
-
-As such, schema also introduces the concept of a Linkable model.
+A store is a very high-level interface which defines the framework for a an object relation layer. This is likely not your traditional conception of an ORM, as it is much more light-weight and we avoid reflection and type inferencing scenarios. This leads to specific, often large interfaces.  A store has a schema, essentially a relationship map with validity checking which exposes the Link and Unlink functions to manage the relationships between two "models" of data. The schema introduces the concept of a Linkable model.
 
 Please see the godoc reference for more information.
