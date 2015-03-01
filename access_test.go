@@ -211,3 +211,26 @@ func TestAccessUnmarshal(t *testing.T) {
 		t.Errorf("Access Unmarshal failed")
 	}
 }
+
+func TestAccessModelFor(t *testing.T) {
+	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
+	model, err := a.ModelFor(NullKind)
+	if err != ErrUndefinedKind {
+		t.Errorf("Expected to get UndefinedKind error, instead got: %s", err)
+	}
+	if model != nil {
+		t.Errorf("Access should return a nil model if it returns an error")
+	}
+
+	a.Register(NullKind, NewNM)
+
+	model, err = a.ModelFor(NullKind)
+	if err != nil {
+		t.Errorf("Got error: %s", err)
+	}
+
+	_, ok := model.(*NM)
+	if !ok {
+		t.Errorf("ModelFor failed to return the correct model type")
+	}
+}
