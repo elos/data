@@ -32,10 +32,17 @@ type RecorderDB struct {
 	PopulatedByID    []Record
 	PopulatedByField []Record
 	Err              error
+	dbtype           DBType
 }
 
 func NewRecorderDB() *RecorderDB {
 	return (&RecorderDB{}).Reset()
+}
+
+func NewRecorderDBWithType(t DBType) *RecorderDB {
+	db := NewRecorderDB()
+	db.dbtype = t
+	return db
 }
 
 func (db *RecorderDB) Reset() *RecorderDB {
@@ -46,6 +53,7 @@ func (db *RecorderDB) Reset() *RecorderDB {
 	db.PopulatedByID = make([]Record, 0)
 	db.PopulatedByField = make([]Record, 0)
 	db.Err = nil
+	db.dbtype = RecorderDBType
 
 	return db
 }
@@ -77,7 +85,7 @@ func (db *RecorderDB) CheckID(id ID) error {
 }
 
 func (db *RecorderDB) Type() DBType {
-	return RecorderDBType
+	return db.dbtype
 }
 
 func (db *RecorderDB) Save(r Record) error {
