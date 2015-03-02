@@ -33,36 +33,6 @@ func Map(r Record) KindMap {
 // populate a Record's fields.
 type AttrMap map[string]interface{}
 
-// A ChangeKind represents the nature of a Change.
-type ChangeKind int
-
-const (
-	// Update is the ChangeKind triggered on a save;
-	// As such it covers boths creation and modification.
-	Update ChangeKind = 1
-
-	// Delete is the ChangeKind triggered on a delete.
-	Delete ChangeKind = 2
-)
-
-// A Change represents a modification to the data state
-// a DB represents. Any succesful modification to the underlying
-// should trigger a Change to be sent of a channel.
-// Implementations of a the DB interface should implement all
-// defined ChangeKinds
-type Change struct {
-	ChangeKind
-	Record
-}
-
-// NewChange is a simple constructor for a Change object
-func NewChange(kind ChangeKind, r Record) *Change {
-	return &Change{
-		ChangeKind: kind,
-		Record:     r,
-	}
-}
-
 func TransferAttrs(this interface{}, that interface{}) error {
 	bytes, err := json.Marshal(this)
 	if err != nil {
