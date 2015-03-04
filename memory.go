@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type MemDB struct {
+type MemoryDB struct {
 	idConstructor func() ID
 	idChecker     func(ID) error
 	dbType        DBType
@@ -18,32 +18,32 @@ type MemDB struct {
 	*ChangeHub
 }
 
-func (db *MemDB) Connect(s string) {
+func (db *MemoryDB) Connect(s string) {
 	panic("Should not connect to a memory db")
 }
 
-func (db *MemDB) NewID() ID {
+func (db *MemoryDB) NewID() ID {
 	db.Lock()
 	defer db.Unlock()
 
 	return db.idConstructor()
 }
 
-func (db *MemDB) CheckID(id ID) error {
+func (db *MemoryDB) CheckID(id ID) error {
 	db.Lock()
 	defer db.Unlock()
 
 	return db.idChecker(id)
 }
 
-func (db *MemDB) Type() DBType {
+func (db *MemoryDB) Type() DBType {
 	db.Lock()
 	defer db.Unlock()
 
 	return db.dbType
 }
 
-func (db *MemDB) Save(r Record) error {
+func (db *MemoryDB) Save(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
@@ -54,7 +54,7 @@ func (db *MemDB) Save(r Record) error {
 	return nil
 }
 
-func (db *MemDB) Delete(r Record) error {
+func (db *MemoryDB) Delete(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
@@ -70,7 +70,7 @@ func (db *MemDB) Delete(r Record) error {
 	return nil
 }
 
-func (db *MemDB) PopulateByID(r Record) error {
+func (db *MemoryDB) PopulateByID(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
@@ -86,12 +86,12 @@ func (db *MemDB) PopulateByID(r Record) error {
 	}
 }
 
-func (db *MemDB) PopulateByField(name string, v interface{}, r Record) error {
-	// this sucks
-
+func (db *MemoryDB) PopulateByField(name string, v interface{}, r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
+	// this is gonna be reflection
+	// this sucks
 	// TODO FIXME
 	panic("PopulateByField not implemented")
 

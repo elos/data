@@ -4,10 +4,9 @@ import (
 	"sync"
 )
 
-var SpaceType DBType = "space"
+var InteractiveType DBType = "interactive"
 
 type InteractiveModel interface {
-	Model
 	Reload() error
 }
 
@@ -26,7 +25,7 @@ func NewInteractiveStore(a Access) *InteractiveStore {
 }
 
 func (s *InteractiveStore) Type() DBType {
-	return SpaceType
+	return InteractiveType
 }
 
 func (s *InteractiveStore) ReloadObjects() {
