@@ -10,3 +10,5 @@ Please see the godoc reference for more information.
 Todo
 ----
 make recorder db concurrent-safe
+
+transactions
