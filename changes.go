@@ -53,7 +53,7 @@ type ChangeHub struct {
 
 func (ch *ChangeHub) RegisterForChanges(client Client) *chan *Change {
 	ch.Lock()
-	defer ch.Lock()
+	defer ch.Unlock()
 
 	id := client.ID()
 	c := make(chan *Change)
