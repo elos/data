@@ -5,6 +5,32 @@ import (
 	"sync"
 )
 
+const MemoryDBType DBType = "memory"
+
+var defaultIDConstructor = func() ID {
+	return NewNullID("memory")
+}
+
+var defaultIDChecker = func(id ID) error {
+	return nil
+}
+
+func NewMemoryDBWithType(t DBType) *MemoryDB {
+	db := NewMemoryDB()
+	db.dbType = t
+	return db
+}
+
+func NewMemoryDB() *MemoryDB {
+	return &MemoryDB{
+		idConstructor: defaultIDConstructor,
+		idChecker:     defaultIDChecker,
+		dbType:        MemoryDBType,
+		records:       make(map[string]Record),
+		ChangeHub:     NewChangeHub(),
+	}
+}
+
 type MemoryDB struct {
 	idConstructor func() ID
 	idChecker     func(ID) error
@@ -13,12 +39,19 @@ type MemoryDB struct {
 	sync.Mutex
 
 	recordLock sync.Mutex
-	records    map[ID]Record
+	records    map[string]Record
 
 	*ChangeHub
 }
 
-func (db *MemoryDB) Connect(s string) {
+func (db *MemoryDB) SetIDConstructor(f func() ID) {
+	db.Lock()
+	defer db.Unlock()
+
+	db.idConstructor = f
+}
+
+func (db *MemoryDB) Connect(s string) error {
 	panic("Should not connect to a memory db")
 }
 
@@ -47,7 +80,11 @@ func (db *MemoryDB) Save(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
-	db.records[r.ID()] = r
+	if !r.ID().Valid() {
+		return ErrInvalidID
+	}
+
+	db.records[r.ID().String()] = r
 
 	db.Notify(NewUpdate(r))
 
@@ -58,12 +95,12 @@ func (db *MemoryDB) Delete(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
-	_, ok := db.records[r.ID()]
+	_, ok := db.records[r.ID().String()]
 	if !ok {
 		return ErrNotFound
 	}
 
-	delete(db.records, r.ID())
+	delete(db.records, r.ID().String())
 
 	db.Notify(NewDelete(r))
 
@@ -74,7 +111,7 @@ func (db *MemoryDB) PopulateByID(r Record) error {
 	db.recordLock.Lock()
 	defer db.recordLock.Unlock()
 
-	stored, ok := db.records[r.ID()]
+	stored, ok := db.records[r.ID().String()]
 	if !ok {
 		return ErrNotFound
 	}
@@ -93,7 +130,11 @@ func (db *MemoryDB) PopulateByField(name string, v interface{}, r Record) error 
 	// this is gonna be reflection
 	// this sucks
 	// TODO FIXME
-	panic("PopulateByField not implemented")
+	panic("MemoryDB PopulateByField not implemented")
+	return nil
+}
 
+func (db *MemoryDB) NewQuery(k Kind) RecordQuery {
+	panic("MemoryDB NewQuery not implemented")
 	return nil
 }
