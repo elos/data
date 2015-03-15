@@ -56,7 +56,7 @@ func (s *store) ModelFor(kind Kind) (Model, error) {
 	c, ok := s.registered[kind]
 
 	if !ok {
-		return nil, ErrUndefinedKind
+		return nil, NewUndefinedKindError(kind)
 	}
 
 	return c(s)

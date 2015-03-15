@@ -25,10 +25,6 @@ var (
 	// ErrInvalidSchema is used if the schema can not be validated
 	ErrInvalidSchema = errors.New("data error: invalid schema")
 
-	// ErrUndefinedKind is used if a DB or Schema or Store can't
-	// verify or recognize the kind supplied by a Record
-	ErrUndefinedKind = errors.New("data error: undefined kind")
-
 	// ErrUndefinedLink is used if a link cannot be made
 	// as it is not defined in the schema
 	ErrUndefinedLink = errors.New("data error: undefined link")
@@ -82,4 +78,18 @@ func NewLinkError(ts Model, tt Model, l Link) *LinkError {
 		that: tt,
 		link: l,
 	}
+}
+
+type UndefinedKindError struct {
+	k Kind
+}
+
+func NewUndefinedKindError(k Kind) *UndefinedKindError {
+	return &UndefinedKindError{
+		k: k,
+	}
+}
+
+func (e UndefinedKindError) Error() string {
+	return fmt.Sprintf("undefined kind error: %s", e.k)
 }

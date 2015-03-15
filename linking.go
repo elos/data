@@ -12,7 +12,7 @@ func possibleLink(s *RelationshipMap, this Model, n LinkName) (bool, error) {
 	links, ok := (*s)[thisKind]
 
 	if !ok {
-		return false, ErrUndefinedKind
+		return false, NewUndefinedKindError(thisKind)
 	}
 
 	_, linkPossible := links[n]
