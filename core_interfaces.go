@@ -13,13 +13,13 @@ type Identifiable interface {
 	ID() ID
 }
 
-type Kinded interface {
+type Kindable interface {
 	Kind() Kind
 }
 
 type Client interface {
 	Identifiable
-	Kinded
+	Kindable
 }
 
 /*
@@ -30,8 +30,8 @@ type Client interface {
 */
 type Persistable interface {
 	Identifiable
+	Kindable
 	SetID(ID) error
-	Kind() Kind
 	DBType() DBType
 }
 

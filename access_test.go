@@ -108,7 +108,7 @@ func TestAccessDelete(t *testing.T) {
 
 func TestAccessPopulateByID(t *testing.T) {
 	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
-	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
+	if _, ok := a.PopulateByField("foo", "bar", m).(UndefinedKindError); !ok {
 		t.Errorf("PopulateByField should choke on kind")
 	}
 	a.Register(NullKind, NewNM)
@@ -151,7 +151,7 @@ func TestAccessPopulateByID(t *testing.T) {
 func TestAccessPopulateByField(t *testing.T) {
 	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 
-	if err := a.PopulateByField("foo", "bar", m); err != ErrUndefinedKind {
+	if _, ok := a.PopulateByField("foo", "bar", m).(UndefinedKindError); !ok {
 		t.Errorf("PopulateByField should choke on kind")
 	}
 
@@ -215,8 +215,9 @@ func TestAccessUnmarshal(t *testing.T) {
 func TestAccessModelFor(t *testing.T) {
 	a := NewAccess(NewNullModel(), NewRecorderStore(NewRecorderDB(), NewNullSchema()))
 	model, err := a.ModelFor(NullKind)
-	if err != ErrUndefinedKind {
-		t.Errorf("Expected to get UndefinedKind error, instead got: %s", err)
+	_, ok := err.(UndefinedKindError)
+	if !ok {
+		t.Errorf("Expected to get UndefinedKindError, instead got: %s", err)
 	}
 	if model != nil {
 		t.Errorf("Access should return a nil model if it returns an error")
@@ -229,7 +230,7 @@ func TestAccessModelFor(t *testing.T) {
 		t.Errorf("Got error: %s", err)
 	}
 
-	_, ok := model.(*NM)
+	_, ok = model.(*NM)
 	if !ok {
 		t.Errorf("ModelFor failed to return the correct model type")
 	}

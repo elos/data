@@ -84,8 +84,8 @@ type UndefinedKindError struct {
 	k Kind
 }
 
-func NewUndefinedKindError(k Kind) *UndefinedKindError {
-	return &UndefinedKindError{
+func NewUndefinedKindError(k Kind) UndefinedKindError {
+	return UndefinedKindError{
 		k: k,
 	}
 }

@@ -84,7 +84,7 @@ func TestStore(t *testing.T) {
 		t.Errorf("ModelFor should return a nil model when unrecognized")
 	}
 
-	if err != ErrUndefinedKind {
+	if _, ok = err.(UndefinedKindError); !ok {
 		t.Errorf("ModelFor should return ErrUndefinedKind when model not registered")
 	}
 	// End ModelFor

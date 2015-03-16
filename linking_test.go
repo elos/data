@@ -53,7 +53,8 @@ func TestPossibleLink(t *testing.T) {
 	if ok != false {
 		t.Errorf("should not be a possibleLink")
 	}
-	if err != ErrUndefinedKind {
+
+	if _, ok = err.(UndefinedKindError); !ok {
 		t.Errorf("possible link shouldn't have found a link in the map")
 	}
 
@@ -73,7 +74,7 @@ func TestPossibleLink(t *testing.T) {
 
 func TestLinkFor(t *testing.T) {
 	_, err := (&blankR).linkFor(e1, name)
-	if err != ErrUndefinedKind {
+	if _, ok := err.(UndefinedKindError); !ok {
 		t.Errorf("should error")
 	}
 
