@@ -72,3 +72,7 @@ func NewSchema(sm *RelationshipMap, version int) (Schema, error) {
 func (s *versionedRelationshipMap) Version() int {
 	return s.version
 }
+
+func EqualModels(m1 Model, m2 Model) bool {
+	return m1.ID().String() == m2.ID().String() && m1.Kind() == m2.Kind()
+}
