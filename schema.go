@@ -19,6 +19,10 @@ type Link struct {
 	Inverse LinkName
 }
 
+func (l Link) String() string {
+	return string(l.Name)
+}
+
 type RelationshipMap map[Kind]map[LinkName]Link
 
 /*

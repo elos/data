@@ -93,3 +93,16 @@ func NewUndefinedKindError(k Kind) UndefinedKindError {
 func (e UndefinedKindError) Error() string {
 	return fmt.Sprintf("undefined kind error: %s", e.k)
 }
+
+type EmptyLinkError struct {
+	model Model
+	link  Link
+}
+
+func NewEmptyLinkError(m Model, l Link) *EmptyLinkError {
+	return &EmptyLinkError{m, l}
+}
+
+func (e *EmptyLinkError) Error() string {
+	return fmt.Sprintf("empty link error: model with id %s, and kind %s, doesn't have link %s", e.model.ID(), e.model.Kind(), e.link)
+}
