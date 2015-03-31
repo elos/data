@@ -11,6 +11,10 @@ type DBType string
 // It should correspond to the model's name, generally lowercase.
 type Kind string
 
+func EmptyKind(k Kind) bool {
+	return k == ""
+}
+
 // A KindMap represents a mapping from
 // Record Kind to Record object, useful
 // for protocols which follow:
