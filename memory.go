@@ -11,6 +11,10 @@ var defaultIDConstructor = func() ID {
 	return NewNullID("memory")
 }
 
+var defaultIDParser = func(s string) (ID, error) {
+	return NewNullID(s), nil
+}
+
 var defaultIDChecker = func(id ID) error {
 	return nil
 }
@@ -24,6 +28,7 @@ func NewMemoryDBWithType(t DBType) *MemoryDB {
 func NewMemoryDB() *MemoryDB {
 	return &MemoryDB{
 		idConstructor: defaultIDConstructor,
+		idParser:      defaultIDParser,
 		idChecker:     defaultIDChecker,
 		dbType:        MemoryDBType,
 		records:       make(map[string]Record),
@@ -33,6 +38,7 @@ func NewMemoryDB() *MemoryDB {
 
 type MemoryDB struct {
 	idConstructor func() ID
+	idParser      func(string) (ID, error)
 	idChecker     func(ID) error
 	dbType        DBType
 
@@ -60,6 +66,13 @@ func (db *MemoryDB) NewID() ID {
 	defer db.Unlock()
 
 	return db.idConstructor()
+}
+
+func (db *MemoryDB) ParseID(s string) (ID, error) {
+	db.Lock()
+	defer db.Unlock()
+
+	return db.idParser(s)
 }
 
 func (db *MemoryDB) CheckID(id ID) error {

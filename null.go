@@ -47,6 +47,10 @@ func (db *NullDB) NewID() ID {
 	return NullID("")
 }
 
+func (db *NullDB) ParseID(id string) (ID, error) {
+	return NullID(id), nil
+}
+
 func (db *NullDB) CheckID(id ID) error {
 	return nil
 }

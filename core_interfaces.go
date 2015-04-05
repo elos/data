@@ -79,6 +79,7 @@ type DB interface {
 	// Persistence
 	NewID() ID
 	CheckID(ID) error
+	ParseID(string) (ID, error)
 	Type() DBType
 
 	DBOps

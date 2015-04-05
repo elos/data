@@ -84,6 +84,10 @@ func (db *RecorderDB) CheckID(id ID) error {
 	return nil
 }
 
+func (db *RecorderDB) ParseID(id string) (ID, error) {
+	return NewRecorderID(id).SetValidity(true), nil
+}
+
 func (db *RecorderDB) Type() DBType {
 	return db.dbtype
 }
