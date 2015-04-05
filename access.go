@@ -117,6 +117,10 @@ func (a *access) NewID() ID {
 	return a.store.NewID()
 }
 
+func (a *access) ParseID(s string) (ID, error) {
+	return a.store.ParseID(s)
+}
+
 func (a *access) Query(k Kind) ModelQuery {
 	return a.store.Query(k)
 }

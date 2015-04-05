@@ -23,6 +23,7 @@ type Store interface {
 	RegisterForChanges(Client) *chan *Change
 
 	NewID() ID
+	ParseID(string) (ID, error)
 	Query(Kind) ModelQuery
 }
 
