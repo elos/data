@@ -185,8 +185,8 @@ func NewNullModel() *NM {
 }
 
 // Model Constructor
-func NewNM(s Store) (Model, error) {
-	return NewNullModel(), nil
+func NewNM(s Store) Model {
+	return NewNullModel()
 }
 
 func (nm *NM) DBType() DBType {

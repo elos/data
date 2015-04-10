@@ -43,7 +43,7 @@ func NewStore(db DB, s Schema) *store {
 	}
 }
 
-type ModelConstructor func(Store) (Model, error)
+type ModelConstructor func(Store) Model
 
 func (s *store) Register(k Kind, c ModelConstructor) {
 	s.Lock()
@@ -61,7 +61,7 @@ func (s *store) ModelFor(kind Kind) (Model, error) {
 		return nil, NewUndefinedKindError(kind)
 	}
 
-	return c(s)
+	return c(s), nil
 }
 
 func (s *store) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
