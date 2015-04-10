@@ -8,6 +8,7 @@ import (
 type Store interface {
 	// DB Info
 	Type() DBType
+	Compatible(Persistable) bool
 
 	// Schema Model Management
 	Register(Kind, ModelConstructor)
@@ -147,4 +148,8 @@ func (i *ib) Close() error {
 
 func (s *store) Query(k Kind) ModelQuery {
 	return &qb{RecordQuery: s.DB.NewQuery(k)}
+}
+
+func (s *store) Compatible(p Persistable) bool {
+	return p.DBType() == s.Type()
 }

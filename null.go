@@ -144,6 +144,10 @@ func (s *NullStore) Query(k Kind) ModelQuery {
 	return nil
 }
 
+func (s *NullStore) Compatible(p Persistable) bool {
+	return p.DBType() == s.Type()
+}
+
 func NewNullStore() *NullStore {
 	return &NullStore{
 		NullDB:     NewNullDB(),

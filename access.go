@@ -132,3 +132,7 @@ func (a *access) Registered() []Kind {
 func (a *access) Type() DBType {
 	return a.store.Type()
 }
+
+func (a *access) Compatible(p Persistable) bool {
+	return a.store.Compatible(p)
+}
