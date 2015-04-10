@@ -1,8 +1,6 @@
 package data
 
-import (
-	"sync"
-)
+import "sync"
 
 var InteractiveType DBType = "interactive"
 
@@ -11,15 +9,15 @@ type InteractiveModel interface {
 }
 
 type InteractiveStore struct {
-	Access
+	Store
 
 	m       sync.Mutex
 	objects map[InteractiveModel]bool
 }
 
-func NewInteractiveStore(a Access) *InteractiveStore {
+func NewInteractiveStore(store Store) *InteractiveStore {
 	return &InteractiveStore{
-		Access:  a,
+		Store:   store,
 		objects: make(map[InteractiveModel]bool),
 	}
 }
