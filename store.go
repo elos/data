@@ -1,88 +1,21 @@
 package data
 
-import (
-	"encoding/json"
-	"sync"
-)
-
 type Store interface {
-	// DB Info
-	Type() DBType
-	Compatible(Persistable) bool
-
-	// Schema Model Management
-	Register(Kind, ModelConstructor)
-	ModelFor(Kind) (Model, error)
-	Unmarshal(Kind, AttrMap) (Model, error)
-	Registered() []Kind
-
-	// Model Persistence
-	Save(Model) error
-	Delete(Model) error
-	PopulateByID(Model) error
-	PopulateByField(string, interface{}, Model) error
-	RegisterForChanges(Client) *chan *Change
-
-	NewID() ID
-	ParseID(string) (ID, error)
-	Query(Kind) ModelQuery
+	DB
 }
 
 type store struct {
 	DB
-	Schema
-	registered map[Kind]ModelConstructor
-	sync.Mutex
 }
 
-func NewStore(db DB, s Schema) *store {
+func NewStore(db DB) *store {
 	return &store{
-		DB:         db,
-		Schema:     s,
-		registered: make(map[Kind]ModelConstructor),
+		DB: db,
 	}
 }
 
-type ModelConstructor func(Store) Model
-
-func (s *store) Register(k Kind, c ModelConstructor) {
-	s.Lock()
-	defer s.Unlock()
-
-	s.registered[k] = c
-}
-
-func (s *store) ModelFor(kind Kind) (Model, error) {
-	s.Lock()
-	defer s.Unlock()
-	c, ok := s.registered[kind]
-
-	if !ok {
-		return nil, NewUndefinedKindError(kind)
-	}
-
-	return c(s), nil
-}
-
-func (s *store) Unmarshal(k Kind, attrs AttrMap) (Model, error) {
-	bytes, _ := json.Marshal(attrs)
-	m, err := s.ModelFor(k)
-	if err != nil {
-		return m, err
-	}
-
-	return m, json.Unmarshal(bytes, m)
-}
-
-func (s *store) Registered() []Kind {
-	s.Lock()
-	defer s.Unlock()
-	k := make([]Kind, 0)
-	for kind, _ := range s.registered {
-		k = append(k, kind)
-	}
-
-	return k
+func (s *store) Query(k Kind) ModelQuery {
+	return &qb{RecordQuery: s.DB.NewQuery(k)}
 }
 
 func (s *store) Save(m Model) error {
@@ -144,12 +77,4 @@ func (i *ib) Next(m Model) bool {
 
 func (i *ib) Close() error {
 	return i.RecordIterator.Close()
-}
-
-func (s *store) Query(k Kind) ModelQuery {
-	return &qb{RecordQuery: s.DB.NewQuery(k)}
-}
-
-func (s *store) Compatible(p Persistable) bool {
-	return p.DBType() == s.Type()
 }
