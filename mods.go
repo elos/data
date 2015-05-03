@@ -18,6 +18,11 @@ type (
 		m    sync.Mutex
 		subs map[ID][]*chan *Mod
 	}
+
+	ModDB struct {
+		DB
+		*ModHub
+	}
 )
 
 const (
@@ -28,6 +33,8 @@ const (
 	// Delete is the ChangeKind triggered on Delete
 	Delete
 )
+
+// Mod Implementation {{{
 
 func NewMod(k ModKind, m Model) *Mod {
 	return &Mod{m, k}
@@ -40,6 +47,10 @@ func newUpdate(m Model) *Mod {
 func newDelete(m Model) *Mod {
 	return NewMod(Delete, m)
 }
+
+// }}}
+
+// ModHub Implementation {{{
 
 func NewModHub() *ModHub {
 	return &ModHub{
@@ -75,3 +86,32 @@ func (h *ModHub) notify(m *Mod) {
 		}
 	}
 }
+
+// }}}
+
+// ModDB Implementation {{{
+
+func NewModDB(db DB) *ModDB {
+	return &ModDB{
+		DB:     db,
+		ModHub: NewModHub(),
+	}
+}
+
+func (s *ModDB) Save(m Model) error {
+	err := s.DB.Save(m)
+	if err != nil {
+		s.ModHub.notify(newUpdate(m))
+	}
+	return err
+}
+
+func (s *ModDB) Delete(m Model) error {
+	err := s.DB.Delete(m)
+	if err != nil {
+		s.ModHub.notify(newDelete(m))
+	}
+	return s.DB.Delete(m)
+}
+
+// }}}
