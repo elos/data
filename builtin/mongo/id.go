@@ -130,14 +130,14 @@ func NewIDIter(set IDSet, s data.DB) *IDIter {
 	}
 }
 
-func (i *IDIter) Next(m data.Model) bool {
+func (i *IDIter) Next(r data.Record) bool {
 	if i.place >= len(i.ids) {
 		return false
 	}
 
-	m.SetID(data.ID(i.ids[i.place].Hex()))
+	r.SetID(data.ID(i.ids[i.place].Hex()))
 
-	if err := i.DB.PopulateByID(m); err != nil {
+	if err := i.DB.PopulateByID(r); err != nil {
 		i.err = err
 		return false
 	} else {
