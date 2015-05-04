@@ -71,7 +71,7 @@ type (
 		Save(Record) error
 		Delete(Record) error
 		PopulateByID(Record) error
-		PopulateByField(Record) error
+		PopulateByField(string, interface{}, Record) error
 		NewQuery(Kind) Query
 	}
 
