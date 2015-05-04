@@ -49,7 +49,7 @@ type (
 
 type (
 	Query interface {
-		Execute() Iterator
+		Execute() (Iterator, error)
 		Skip(int) Query
 		Limit(int) Query
 		Batch(int) Query

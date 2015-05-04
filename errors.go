@@ -20,10 +20,13 @@ var (
 
 	// ErrInvalidID is used if a Record given to a driver
 	// does not have a validly parseable id
-	ErrEmptyLink = formatError("invalid id")
+	ErrInvalidID = formatError("invalid id")
 
 	// ErrAccessDenial is used if a driver encounters some sort
 	// of access restriction from the DBMS. It is also used if
 	// an implementation of data.Access rejects access to a Client
 	ErrAccessDenial = formatError("access denied")
+
+	// TODO who uses?
+	ErrEmptyLink = formatError("empty link")
 )

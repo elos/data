@@ -19,10 +19,6 @@ func NewEmptyID() bson.ObjectId {
 	return *new(bson.ObjectId)
 }
 
-func (db *MongoDB) NewID() data.ID {
-	return data.ID(NewObjectID().Hex())
-}
-
 func ParseObjectID(idS string) (id bson.ObjectId, err error) {
 	defer func() { // cause the bson pkg isn't idiomatic
 		if r := recover(); r != nil {
@@ -39,17 +35,6 @@ func ParseObjectID(idS string) (id bson.ObjectId, err error) {
 	id = bson.ObjectIdHex(idS) // can panic
 
 	return id, nil
-}
-
-func (db *MongoDB) ParseID(idS string) (id data.ID, err error) {
-	bid, err := ParseObjectID(idS)
-	id = data.ID(bid.Hex())
-	return
-}
-
-func (db *MongoDB) CheckID(id data.ID) error {
-	_, err := ParseObjectID(id.String())
-	return err
 }
 
 func NewObjectID() bson.ObjectId {
@@ -128,7 +113,7 @@ func (s IDSet) IDs() []data.ID {
 }
 
 type IDIter struct {
-	data.Store
+	data.DB
 	ids   IDSet
 	place int
 	err   error
@@ -136,10 +121,10 @@ type IDIter struct {
 	*sync.Mutex
 }
 
-func NewIDIter(set IDSet, s data.Store) *IDIter {
+func NewIDIter(set IDSet, s data.DB) *IDIter {
 	return &IDIter{
 		place: 0,
-		Store: s,
+		DB:    s,
 		ids:   set,
 		Mutex: new(sync.Mutex),
 	}
@@ -152,7 +137,7 @@ func (i *IDIter) Next(m data.Model) bool {
 
 	m.SetID(data.ID(i.ids[i.place].Hex()))
 
-	if err := i.Store.PopulateByID(m); err != nil {
+	if err := i.DB.PopulateByID(m); err != nil {
 		i.err = err
 		return false
 	} else {

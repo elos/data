@@ -7,36 +7,25 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-func (db *MongoDB) NewQuery(k data.Kind) data.RecordQuery {
-	return &MongoQuery{
-		db:    db,
-		kind:  k,
-		match: data.AttrMap{},
-		Mutex: new(sync.Mutex),
-	}
+type Query struct {
+	db                 *DB
+	kind               data.Kind
+	match              data.AttrMap
+	limit, skip, batch int
+	m                  sync.Mutex
 }
 
-type MongoQuery struct {
-	db    *MongoDB
-	kind  data.Kind
-	match data.AttrMap
-	limit int
-	skip  int
-	batch int
-	*sync.Mutex
-}
+func (q *Query) Execute() (data.Iterator, error) {
+	q.m.Lock()
+	defer q.m.Unlock()
 
-func (q *MongoQuery) Execute() (data.RecordIterator, error) {
-	q.Lock()
-	defer q.Unlock()
-
-	s, err := q.db.forkSession()
+	s, err := q.db.Fork()
 	if err != nil {
 		return nil, err
 	}
 	defer s.Close()
 
-	c, err := q.db.collectionForKind(s, q.kind)
+	c, err := q.db.Collection(s, q.kind)
 	if err != nil {
 		return nil, err
 	}
@@ -55,56 +44,54 @@ func (q *MongoQuery) Execute() (data.RecordIterator, error) {
 		mgoQuery.Batch(q.batch)
 	}
 
-	return newRecordIter(mgoQuery.Iter()), nil
+	return newIter(mgoQuery.Iter()), nil
 }
 
-func (q *MongoQuery) Select(am data.AttrMap) data.RecordQuery {
-	q.Lock()
-	defer q.Unlock()
+func (q *Query) Select(am data.AttrMap) data.Query {
+	q.m.Lock()
+	defer q.m.Unlock()
+
 	q.match = am
 	return q
 }
 
-func (q *MongoQuery) Limit(i int) data.RecordQuery {
-	q.Lock()
-	defer q.Unlock()
+func (q *Query) Limit(i int) data.Query {
+	q.m.Lock()
+	defer q.m.Unlock()
 
 	q.limit = i
 	return q
 }
 
-func (q *MongoQuery) Skip(i int) data.RecordQuery {
-	q.Lock()
-	defer q.Unlock()
+func (q *Query) Skip(i int) data.Query {
+	q.m.Lock()
+	defer q.m.Unlock()
 
 	q.skip = i
 	return q
 }
 
-func (q *MongoQuery) Batch(i int) data.RecordQuery {
-	q.Lock()
-	defer q.Unlock()
+func (q *Query) Batch(i int) data.Query {
+	q.m.Lock()
+	defer q.m.Unlock()
 
 	q.batch = i
 	return q
 }
 
-type recordIter struct {
+type iter struct {
 	iter *mgo.Iter
-	*sync.Mutex
+	sync.Mutex
 }
 
-func newRecordIter(i *mgo.Iter) data.RecordIterator {
-	return &recordIter{
-		iter:  i,
-		Mutex: new(sync.Mutex),
-	}
+func newIter(i *mgo.Iter) data.Iterator {
+	return &iter{iter: i}
 }
 
-func (i *recordIter) Next(r data.Record) bool {
+func (i *iter) Next(r data.Record) bool {
 	return i.iter.Next(r)
 }
 
-func (i *recordIter) Close() error {
+func (i *iter) Close() error {
 	return i.iter.Close()
 }

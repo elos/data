@@ -1,0 +1,422 @@
+2015-05-03T19:07:26.670-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:07:26.671-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:07:26.685-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:07:26.685-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19053 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:07:26.685-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:07:26.708-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:07:37.234-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:07:37.234-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:07:37.234-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:07:37.234-0700 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2015-05-03T19:07:37.234-0700 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2015-05-03T19:07:37.234-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:07:37.235-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:07:37.235-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:07:37.235-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:07:37.235-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:07:37.240-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:07:37.240-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:07:37.240-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:07:37.345-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:07:37.346-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:07:37.346-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:07:37.347-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:07:37.347-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:07:37.347-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:08:17.652-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:08:17.673-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:08:17.673-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:08:17.689-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19083 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:08:17.689-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:08:17.689-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:08:17.712-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:08:18.144-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54677 #1 (1 connection now open)
+2015-05-03T19:08:18.152-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:08:18.152-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:08:18.152-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:08:18.152-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:08:18.153-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:08:18.155-0700 I NETWORK  [conn1] end connection 127.0.0.1:54677 (0 connections now open)
+2015-05-03T19:08:18.157-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:08:18.157-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:08:18.157-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:08:18.260-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:08:18.260-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:08:18.260-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:08:18.262-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:08:18.262-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:08:18.262-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:09:29.919-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:09:29.937-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:09:29.937-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:09:29.965-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19183 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:09:29.966-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:09:29.966-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:09:29.989-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:09:30.410-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54701 #1 (1 connection now open)
+2015-05-03T19:09:30.418-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:09:30.418-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:09:30.418-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:09:30.418-0700 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2015-05-03T19:09:30.418-0700 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2015-05-03T19:09:30.418-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:09:30.419-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:09:30.419-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:09:30.419-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:09:30.419-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:09:30.419-0700 I NETWORK  [conn1] end connection 127.0.0.1:54701 (0 connections now open)
+2015-05-03T19:09:30.424-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:09:30.424-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:09:30.424-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:09:30.437-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:09:30.447-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:09:30.448-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:09:30.448-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:09:30.526-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:09:30.526-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:09:30.526-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:09:30.528-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:09:30.528-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:09:30.528-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:09:42.050-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:09:42.068-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:09:42.069-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:09:42.084-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19187 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:09:42.084-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:09:42.084-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:09:42.106-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:09:42.535-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54751 #1 (1 connection now open)
+2015-05-03T19:09:42.545-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:09:42.545-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:09:42.545-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:09:42.545-0700 I NETWORK  [signalProcessingThread] closing listening socket: 8
+2015-05-03T19:09:42.545-0700 I NETWORK  [signalProcessingThread] closing listening socket: 9
+2015-05-03T19:09:42.546-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:09:42.546-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:09:42.546-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:09:42.546-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:09:42.546-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:09:42.546-0700 I NETWORK  [conn1] end connection 127.0.0.1:54751 (0 connections now open)
+2015-05-03T19:09:42.551-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:09:42.551-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:09:42.551-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:09:42.563-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:09:42.573-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:09:42.573-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:09:42.573-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:09:42.654-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:09:42.654-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:09:42.654-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:09:42.656-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:09:42.656-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:09:42.656-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:09:54.168-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:09:54.188-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:09:54.188-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:09:54.214-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:09:54.214-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19191 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:09:54.214-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:09:54.215-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:09:54.215-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:09:54.233-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:09:54.654-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54825 #1 (1 connection now open)
+2015-05-03T19:09:54.664-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:09:54.664-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] closing listening socket: 8
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] closing listening socket: 9
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:09:54.664-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:09:54.664-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:09:54.664-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:09:54.664-0700 I NETWORK  [conn1] end connection 127.0.0.1:54825 (0 connections now open)
+2015-05-03T19:09:54.669-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:09:54.669-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:09:54.669-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:09:54.773-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:09:54.773-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:09:54.774-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:09:54.775-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:09:54.775-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:09:54.775-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:11:26.358-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:11:26.377-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:11:26.377-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:11:26.391-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:11:26.391-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19303 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:11:26.391-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:11:26.391-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:11:26.392-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:11:26.392-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:11:26.392-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:11:26.392-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:11:26.392-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:11:26.392-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:11:26.413-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:11:26.850-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54847 #1 (1 connection now open)
+2015-05-03T19:11:26.859-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:11:26.859-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:11:26.859-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:11:26.859-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:11:26.859-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:11:26.859-0700 I NETWORK  [conn1] end connection 127.0.0.1:54847 (0 connections now open)
+2015-05-03T19:11:26.864-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:11:26.864-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:11:26.864-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:11:26.876-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:11:26.886-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:11:26.886-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:11:26.886-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:11:26.968-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:11:26.968-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:11:26.969-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:11:26.970-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:11:26.970-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:11:26.970-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:13:27.312-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:13:27.331-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:13:27.332-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:13:27.346-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19487 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:13:27.346-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:13:27.346-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:13:27.370-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:13:27.805-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54910 #1 (1 connection now open)
+2015-05-03T19:13:27.812-0700 I CONTROL  [signalProcessingThread] got signal 2 (Interrupt: 2), will terminate after current cmd ends
+2015-05-03T19:13:27.813-0700 I CONTROL  [signalProcessingThread] now exiting
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2015-05-03T19:13:27.813-0700 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2015-05-03T19:13:27.813-0700 I STORAGE  [signalProcessingThread] shutdown: waiting for fs preallocator...
+2015-05-03T19:13:27.813-0700 I STORAGE  [signalProcessingThread] shutdown: final commit...
+2015-05-03T19:13:27.813-0700 I NETWORK  [conn1] end connection 127.0.0.1:54910 (0 connections now open)
+2015-05-03T19:13:27.818-0700 I JOURNAL  [signalProcessingThread] journalCleanup...
+2015-05-03T19:13:27.818-0700 I JOURNAL  [signalProcessingThread] removeJournalFiles
+2015-05-03T19:13:27.818-0700 I JOURNAL  [signalProcessingThread] Terminating durability thread ...
+2015-05-03T19:13:27.830-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:13:27.839-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:13:27.840-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:13:27.840-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:13:27.923-0700 I JOURNAL  [journal writer] Journal writer thread stopped
+2015-05-03T19:13:27.923-0700 I JOURNAL  [durability] Durability thread stopped
+2015-05-03T19:13:27.923-0700 I STORAGE  [signalProcessingThread] shutdown: closing all files...
+2015-05-03T19:13:27.924-0700 I STORAGE  [signalProcessingThread] closeAllFiles() finished
+2015-05-03T19:13:27.924-0700 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2015-05-03T19:13:27.925-0700 I CONTROL  [signalProcessingThread] dbexit:  rc: 0
+2015-05-03T19:14:11.201-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:14:11.219-0700 I JOURNAL  [initandlisten] journal dir=/data/db/journal
+2015-05-03T19:14:11.219-0700 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-05-03T19:14:11.245-0700 I JOURNAL  [durability] Durability thread started
+2015-05-03T19:14:11.246-0700 I JOURNAL  [journal writer] Journal writer thread started
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] MongoDB starting : pid=19573 port=27017 dbpath=/data/db 64-bit host=airbears2-10-142-9-141.AirBears2.1918.Berkeley.EDU
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] 
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] db version v3.0.2
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] git version: nogitversion
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] build info: Darwin yosemitevm.local 14.3.0 Darwin Kernel Version 14.3.0: Mon Mar 23 11:59:05 PDT 2015; root:xnu-2782.20.48~5/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] allocator: system
+2015-05-03T19:14:11.246-0700 I CONTROL  [initandlisten] options: { config: "./test.conf", systemLog: { destination: "file", logAppend: true, path: "./test.log" } }
+2015-05-03T19:14:11.264-0700 I NETWORK  [initandlisten] waiting for connections on port 27017
+2015-05-03T19:14:11.693-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54948 #1 (1 connection now open)
+2015-05-03T19:14:11.702-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54949 #2 (2 connections now open)
+2015-05-03T19:14:11.705-0700 I NETWORK  [conn1] end connection 127.0.0.1:54948 (1 connection now open)
+2015-05-03T19:14:11.705-0700 I NETWORK  [conn2] end connection 127.0.0.1:54949 (1 connection now open)
+2015-05-03T19:14:47.084-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54956 #3 (1 connection now open)
+2015-05-03T19:14:47.086-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54957 #4 (2 connections now open)
+2015-05-03T19:14:47.087-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54958 #5 (3 connections now open)
+2015-05-03T19:14:47.089-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54959 #6 (4 connections now open)
+2015-05-03T19:14:47.091-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54960 #7 (5 connections now open)
+2015-05-03T19:14:47.093-0700 I NETWORK  [conn7] end connection 127.0.0.1:54960 (4 connections now open)
+2015-05-03T19:14:47.093-0700 I NETWORK  [conn6] end connection 127.0.0.1:54959 (4 connections now open)
+2015-05-03T19:14:47.093-0700 I NETWORK  [conn5] end connection 127.0.0.1:54958 (4 connections now open)
+2015-05-03T19:14:47.093-0700 I NETWORK  [conn4] end connection 127.0.0.1:54957 (4 connections now open)
+2015-05-03T19:14:47.093-0700 I NETWORK  [conn3] end connection 127.0.0.1:54956 (3 connections now open)
+2015-05-03T19:14:47.100-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:14:47.110-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:14:47.110-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:14:47.110-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:14:47.110-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:14:47.110-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:15:45.639-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54975 #8 (1 connection now open)
+2015-05-03T19:15:45.640-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54976 #9 (2 connections now open)
+2015-05-03T19:15:45.642-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54977 #10 (3 connections now open)
+2015-05-03T19:15:45.643-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54978 #11 (4 connections now open)
+2015-05-03T19:15:45.646-0700 I NETWORK  [conn11] end connection 127.0.0.1:54978 (3 connections now open)
+2015-05-03T19:15:45.646-0700 I NETWORK  [conn10] end connection 127.0.0.1:54977 (3 connections now open)
+2015-05-03T19:15:45.646-0700 I NETWORK  [conn9] end connection 127.0.0.1:54976 (2 connections now open)
+2015-05-03T19:15:45.646-0700 I NETWORK  [conn8] end connection 127.0.0.1:54975 (0 connections now open)
+2015-05-03T19:15:45.654-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:15:45.664-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:15:45.664-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:15:45.664-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:15:45.664-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:15:45.664-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:16:11.899-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54985 #12 (1 connection now open)
+2015-05-03T19:16:11.900-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54986 #13 (2 connections now open)
+2015-05-03T19:16:11.902-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54987 #14 (3 connections now open)
+2015-05-03T19:16:11.903-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:54988 #15 (4 connections now open)
+2015-05-03T19:16:11.906-0700 I NETWORK  [conn15] end connection 127.0.0.1:54988 (3 connections now open)
+2015-05-03T19:16:11.906-0700 I NETWORK  [conn14] end connection 127.0.0.1:54987 (2 connections now open)
+2015-05-03T19:16:11.906-0700 I NETWORK  [conn13] end connection 127.0.0.1:54986 (1 connection now open)
+2015-05-03T19:16:11.906-0700 I NETWORK  [conn12] end connection 127.0.0.1:54985 (0 connections now open)
+2015-05-03T19:16:11.914-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:16:11.924-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:16:11.924-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:16:11.924-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:16:11.924-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:16:11.924-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:17:42.301-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55014 #16 (1 connection now open)
+2015-05-03T19:17:42.303-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55015 #17 (2 connections now open)
+2015-05-03T19:17:42.304-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55016 #18 (3 connections now open)
+2015-05-03T19:17:42.306-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55017 #19 (4 connections now open)
+2015-05-03T19:17:42.308-0700 I NETWORK  [conn19] end connection 127.0.0.1:55017 (3 connections now open)
+2015-05-03T19:17:42.308-0700 I NETWORK  [conn18] end connection 127.0.0.1:55016 (2 connections now open)
+2015-05-03T19:17:42.308-0700 I NETWORK  [conn17] end connection 127.0.0.1:55015 (1 connection now open)
+2015-05-03T19:17:42.308-0700 I NETWORK  [conn16] end connection 127.0.0.1:55014 (0 connections now open)
+2015-05-03T19:17:42.316-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:17:42.326-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:17:42.326-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:17:42.326-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:17:42.326-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:17:42.326-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:18:05.286-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55024 #20 (1 connection now open)
+2015-05-03T19:18:05.288-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55025 #21 (2 connections now open)
+2015-05-03T19:18:05.290-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55026 #22 (3 connections now open)
+2015-05-03T19:18:05.292-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55027 #23 (4 connections now open)
+2015-05-03T19:18:05.294-0700 I NETWORK  [conn22] end connection 127.0.0.1:55026 (3 connections now open)
+2015-05-03T19:18:05.294-0700 I NETWORK  [conn23] end connection 127.0.0.1:55027 (3 connections now open)
+2015-05-03T19:18:05.295-0700 I NETWORK  [conn21] end connection 127.0.0.1:55025 (1 connection now open)
+2015-05-03T19:18:05.295-0700 I NETWORK  [conn20] end connection 127.0.0.1:55024 (0 connections now open)
+2015-05-03T19:18:05.303-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:18:05.314-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:18:05.314-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:18:05.314-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:18:05.314-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:18:05.314-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:18:31.876-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55034 #24 (1 connection now open)
+2015-05-03T19:18:31.877-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55035 #25 (2 connections now open)
+2015-05-03T19:18:31.879-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55036 #26 (3 connections now open)
+2015-05-03T19:18:31.881-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55037 #27 (4 connections now open)
+2015-05-03T19:18:31.883-0700 I NETWORK  [conn27] end connection 127.0.0.1:55037 (3 connections now open)
+2015-05-03T19:18:31.883-0700 I NETWORK  [conn26] end connection 127.0.0.1:55036 (2 connections now open)
+2015-05-03T19:18:31.883-0700 I NETWORK  [conn25] end connection 127.0.0.1:55035 (2 connections now open)
+2015-05-03T19:18:31.883-0700 I NETWORK  [conn24] end connection 127.0.0.1:55034 (2 connections now open)
+2015-05-03T19:18:31.892-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:18:31.902-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:18:31.902-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:18:31.902-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:18:31.902-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:18:31.902-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:20:56.428-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55099 #28 (1 connection now open)
+2015-05-03T19:21:08.920-0700 I COMMAND  [conn28] CMD: drop test.users
+2015-05-03T19:21:14.902-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55104 #29 (2 connections now open)
+2015-05-03T19:21:14.903-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55105 #30 (3 connections now open)
+2015-05-03T19:21:14.906-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55106 #31 (4 connections now open)
+2015-05-03T19:21:14.908-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55107 #32 (5 connections now open)
+2015-05-03T19:21:14.910-0700 I NETWORK  [conn32] end connection 127.0.0.1:55107 (4 connections now open)
+2015-05-03T19:21:14.910-0700 I NETWORK  [conn31] end connection 127.0.0.1:55106 (3 connections now open)
+2015-05-03T19:21:14.910-0700 I NETWORK  [conn30] end connection 127.0.0.1:55105 (2 connections now open)
+2015-05-03T19:21:14.910-0700 I NETWORK  [conn29] end connection 127.0.0.1:55104 (1 connection now open)
+2015-05-03T19:21:14.918-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:21:14.928-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:21:14.928-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:21:14.928-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:21:14.928-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:21:14.928-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:22:14.760-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55126 #33 (2 connections now open)
+2015-05-03T19:22:14.762-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55127 #34 (3 connections now open)
+2015-05-03T19:22:14.763-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55128 #35 (4 connections now open)
+2015-05-03T19:22:14.766-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55129 #36 (5 connections now open)
+2015-05-03T19:22:14.767-0700 I NETWORK  [conn36] end connection 127.0.0.1:55129 (4 connections now open)
+2015-05-03T19:22:14.768-0700 I NETWORK  [conn35] end connection 127.0.0.1:55128 (3 connections now open)
+2015-05-03T19:22:14.768-0700 I NETWORK  [conn34] end connection 127.0.0.1:55127 (2 connections now open)
+2015-05-03T19:22:14.768-0700 I NETWORK  [conn33] end connection 127.0.0.1:55126 (2 connections now open)
+2015-05-03T19:22:14.784-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:22:14.793-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:22:14.793-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:22:14.794-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:22:14.794-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:22:14.794-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:22:42.256-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55138 #37 (2 connections now open)
+2015-05-03T19:22:42.258-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55139 #38 (3 connections now open)
+2015-05-03T19:22:42.259-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55140 #39 (4 connections now open)
+2015-05-03T19:22:42.261-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55141 #40 (5 connections now open)
+2015-05-03T19:22:42.263-0700 I NETWORK  [conn40] end connection 127.0.0.1:55141 (4 connections now open)
+2015-05-03T19:22:42.263-0700 I NETWORK  [conn39] end connection 127.0.0.1:55140 (3 connections now open)
+2015-05-03T19:22:42.263-0700 I NETWORK  [conn38] end connection 127.0.0.1:55139 (2 connections now open)
+2015-05-03T19:22:42.263-0700 I NETWORK  [conn37] end connection 127.0.0.1:55138 (1 connection now open)
+2015-05-03T19:22:42.272-0700 I CONTROL  ***** SERVER RESTARTED *****
+2015-05-03T19:22:42.282-0700 E NETWORK  [initandlisten] listen(): bind() failed errno:48 Address already in use for socket: 0.0.0.0:27017
+2015-05-03T19:22:42.282-0700 E NETWORK  [initandlisten]   addr already in use
+2015-05-03T19:22:42.282-0700 W -        [initandlisten] Detected unclean shutdown - /data/db/mongod.lock is not empty.
+2015-05-03T19:22:42.282-0700 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /data/db/mongod.lock errno:35 Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2015-05-03T19:22:42.282-0700 I CONTROL  [initandlisten] dbexit:  rc: 100
+2015-05-03T19:23:23.599-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55150 #41 (2 connections now open)
+2015-05-03T19:23:23.601-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55151 #42 (3 connections now open)
+2015-05-03T19:23:23.602-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55152 #43 (4 connections now open)
+2015-05-03T19:23:23.604-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55153 #44 (5 connections now open)
+2015-05-03T19:23:23.606-0700 I NETWORK  [conn44] end connection 127.0.0.1:55153 (4 connections now open)
+2015-05-03T19:23:23.606-0700 I NETWORK  [conn42] end connection 127.0.0.1:55151 (4 connections now open)
+2015-05-03T19:23:23.606-0700 I NETWORK  [conn43] end connection 127.0.0.1:55152 (4 connections now open)
+2015-05-03T19:23:23.606-0700 I NETWORK  [conn41] end connection 127.0.0.1:55150 (2 connections now open)
+2015-05-03T19:23:33.541-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55158 #45 (2 connections now open)
+2015-05-03T19:23:33.543-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55159 #46 (3 connections now open)
+2015-05-03T19:23:33.544-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55160 #47 (4 connections now open)
+2015-05-03T19:23:33.546-0700 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:55161 #48 (5 connections now open)
+2015-05-03T19:23:33.548-0700 I NETWORK  [conn48] end connection 127.0.0.1:55161 (4 connections now open)
+2015-05-03T19:23:33.548-0700 I NETWORK  [conn47] end connection 127.0.0.1:55160 (3 connections now open)
+2015-05-03T19:23:33.548-0700 I NETWORK  [conn46] end connection 127.0.0.1:55159 (2 connections now open)
+2015-05-03T19:23:33.548-0700 I NETWORK  [conn45] end connection 127.0.0.1:55158 (2 connections now open)

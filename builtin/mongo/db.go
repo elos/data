@@ -1,89 +1,122 @@
 package mongo
 
 import (
-	"io/ioutil"
-	"log"
-	"os"
+	"fmt"
 	"sync"
 
 	"github.com/elos/data"
 	"gopkg.in/mgo.v2"
 )
 
+const defaultName = "test"
+const defaultAddr = "localhost"
+const dbtype = data.DBType("mongo")
+
 type (
-	CollectionMap map[data.Kind]string
-	DBName        string
+	Opts struct {
+		Addr string
+		Name string
+	}
+
+	Conn struct {
+		s *mgo.Session
+	}
+
+	DB struct {
+		name        string
+		conn        *Conn
+		collections map[data.Kind]string
+		m           sync.Mutex
+	}
 )
 
-const (
-	DBType      data.DBType = "mongo"
-	DefaultName DBName      = "test"
-)
+// Conn Implementation {{{
 
-var DefaultLogger = log.New(os.Stdout, "[MONGO]", log.Lshortfile)
-var NullLogger = log.New(ioutil.Discard, "", log.Lshortfile)
-
-type MongoDB struct {
-	collections CollectionMap
-	*log.Logger
-	connection *MongoConnection
-	Name       DBName
-	*sync.Mutex
-	*data.ChangeHub
+func Connect(addr string) (*Conn, error) {
+	if sesh, err := mgo.Dial(addr); err != nil {
+		return nil, err
+	} else {
+		return &Conn{sesh}, nil
+	}
 }
 
-func NewDB() (db *MongoDB) {
-	db = &MongoDB{}
-	db.ChangeHub = data.NewChangeHub()
-	db.collections = make(CollectionMap)
-	db.Logger = DefaultLogger
-	db.Name = DefaultName
-	db.Mutex = new(sync.Mutex)
-	return
+func (c *Conn) Close() {
+	c.s.Close()
 }
 
-func (db *MongoDB) SetName(n DBName) {
-	db.Lock()
-	defer db.Unlock()
-	db.Name = n
+// }}}
+
+// DB Implementation {{{
+
+func New(o *Opts) (*DB, error) {
+	name := o.Name
+	if name == "" {
+		name = defaultName
+	}
+
+	addr := o.Addr
+	if addr == "" {
+		addr = defaultAddr
+	}
+
+	c, err := Connect(addr)
+	if err != nil {
+		return nil, err
+	}
+
+	return &DB{
+		conn:        c,
+		name:        name,
+		collections: make(map[data.Kind]string),
+	}, nil
 }
 
-func (db *MongoDB) Type() data.DBType {
-	return DBType
+func (db *DB) Name() string {
+	return db.name
 }
 
-func (db *MongoDB) RegisterKind(k data.Kind, collection string) {
-	db.collections[k] = collection
+func (db *DB) SetName(n string) {
+	db.m.Lock()
+	defer db.m.Unlock()
+	db.name = n
 }
 
-func (db *MongoDB) dbase(s *mgo.Session) *mgo.Database {
-	return s.DB(string(db.Name))
+func (db *DB) RegisterKind(k data.Kind, collectionName string) {
+	db.collections[k] = collectionName
 }
 
-func (db *MongoDB) collectionForKind(s *mgo.Session, k data.Kind) (*mgo.Collection, error) {
+func (db *DB) Fork() (*mgo.Session, error) {
+	if db.conn == nil {
+		return nil, data.ErrNoConnection
+	}
+
+	return db.conn.s.Copy(), nil
+}
+
+func (db *DB) Collection(s *mgo.Session, k data.Kind) (*mgo.Collection, error) {
 	c, ok := db.collections[k]
 	if !ok {
-		panic("undefined kind")
+		panic(fmt.Sprintf("data/builtin/mongo: undefined collection for kind: %s", k))
 	}
-	return db.dbase(s).C(c), nil
+	return s.DB(db.name).C(c), nil
 }
 
-func (db MongoDB) collectionFor(s *mgo.Session, r data.Record) (*mgo.Collection, error) {
-	return db.collectionForKind(s, r.Kind())
+func (db *DB) Type() data.DBType {
+	return dbtype
 }
 
-// Forks the session of the primary connection
-//		- If the PrimaryConnection does not exist, this returns a nil session
-func (db *MongoDB) forkSession() (*mgo.Session, error) {
-	if db.connection != nil {
-		return db.connection.Session.Copy(), nil
+// data.DB implementation
+func (db *DB) NewID() data.ID {
+	return data.ID(NewObjectID().Hex())
+}
+
+// data.DB implementation
+func (db *DB) ParseID(s string) (data.ID, error) {
+	if bid, err := ParseObjectID(s); err != nil {
+		return "", err
 	} else {
-		panic("no connection")
-		//return nil, d.ErrNoConnection
+		return data.ID(bid.Hex()), nil
 	}
 }
 
-func (db *MongoDB) err(err error) error {
-	db.Print("error: ", err.Error())
-	return err
-}
+// }}}

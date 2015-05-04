@@ -20,7 +20,6 @@ type runner struct {
 
 	mongod     *exec.Cmd
 	ConfigFile string
-	*log.Logger
 	sync.Mutex
 }
 
@@ -28,14 +27,6 @@ var Runner = &runner{
 	Life:    autonomous.NewLife(),
 	Stopper: make(autonomous.Stopper),
 	Managed: *new(autonomous.Managed),
-	Logger:  DefaultLogger,
-}
-
-func (r *runner) SetLogger(l *log.Logger) {
-	r.Lock()
-	defer r.Unlock()
-
-	r.Logger = l
 }
 
 func (r *runner) SetConfigFile(s string) {
@@ -60,36 +51,40 @@ func (r *runner) Start() {
 	r.mongod.Stderr = os.Stderr
 
 	if err := r.mongod.Start(); err != nil {
-		r.Print(err)
+		log.Fatal(err)
 		return
 	}
 
 	r.Life.Begin()
-	r.Print("Mongo successfully started")
+	log.Print("Mongo successfully started")
 
 	<-r.Stopper
 
 	if err := r.mongod.Process.Signal(os.Interrupt); err != nil {
-		r.Print(err)
+		log.Fatal(err)
 		return
 	}
 
 	r.Life.End()
-	r.Print("Mongo succesfully stopped")
+	log.Print("Mongo succesfully stopped")
 }
 
-func testify(r *runner) {
+var lock = sync.Mutex{}
+
+func Testify(r *runner) {
+	lock.Lock()
+	defer lock.Unlock()
+
 	Runner.SetConfigFile("./test.conf")
-	Runner.SetLogger(NullLogger)
 	go Runner.Start()
 	Runner.WaitStart()
 }
 
-func detestify(r *runner) {
+func Detestify(r *runner) {
+	lock.Lock()
+	defer lock.Unlock()
 
 	go r.Stop()
 	r.WaitStop()
-
 	r.SetConfigFile("")
-	r.SetLogger(DefaultLogger)
 }
