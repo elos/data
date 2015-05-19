@@ -18,6 +18,8 @@ type (
 		m    sync.Mutex
 		subs []*chan *Change
 	}
+
+	FilterFunc func(c *Change) bool
 )
 
 const (
@@ -69,6 +71,30 @@ func (h *ChangePub) Notify(c *Change) {
 	for _, ch := range h.subs {
 		go func() { *ch <- c }()
 	}
+}
+
+// }}}
+
+// Filtering {{{
+
+func Filter(ch *chan *Change, fn FilterFunc) *chan *Change {
+	nc := make(chan *Change)
+
+	go func() {
+		for change := range *ch {
+			if fn(change) {
+				nc <- change
+			}
+		}
+	}()
+
+	return &nc
+}
+
+func FilterKind(ch *chan *Change, k Kind) *chan *Change {
+	return Filter(ch, func(change *Change) bool {
+		return change.Record.Kind() == k
+	})
 }
 
 // }}}
