@@ -27,6 +27,7 @@ type (
 		conn        *Conn
 		collections map[data.Kind]string
 		m           sync.Mutex
+		pub         *data.ChangePub
 	}
 )
 
@@ -68,6 +69,7 @@ func New(o *Opts) (*DB, error) {
 		conn:        c,
 		name:        name,
 		collections: make(map[data.Kind]string),
+		pub:         data.NewChangePub(),
 	}, nil
 }
 
@@ -117,6 +119,11 @@ func (db *DB) ParseID(s string) (data.ID, error) {
 	} else {
 		return data.ID(bid.Hex()), nil
 	}
+}
+
+// data.DB implementation
+func (db *DB) Changes() *chan *data.Change {
+	return db.pub.Changes()
 }
 
 // }}}

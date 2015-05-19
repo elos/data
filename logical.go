@@ -37,14 +37,6 @@ type (
 		SetID(ID)
 		Kind() Kind
 	}
-
-	// A slightly higher level abstraction over
-	// a Record, provides for application level
-	// concerns
-	Model interface {
-		Record
-		Concerned() []ID
-	}
 )
 
 type (
@@ -73,6 +65,7 @@ type (
 		PopulateByID(Record) error
 		PopulateByField(string, interface{}, Record) error
 		NewQuery(Kind) Query
+		Changes() *chan *Change
 	}
 
 	Client interface {

@@ -25,6 +25,11 @@ func (db *DB) Save(r data.Record) error {
 	}
 
 	_, err = collection.UpsertId(bid, r)
+
+	if err != nil {
+		db.pub.Notify(data.NewUpdate(r))
+	}
+
 	return err
 }
 
@@ -46,7 +51,13 @@ func (db *DB) Delete(r data.Record) error {
 		return data.ErrInvalidID
 	}
 
-	return collection.RemoveId(bid)
+	err = collection.RemoveId(bid)
+
+	if err != nil {
+		db.pub.Notify(data.NewDelete(r))
+	}
+
+	return err
 }
 
 func (db *DB) PopulateByID(r data.Record) error {
