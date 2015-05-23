@@ -1,4 +1,4 @@
-package sql
+package osql
 
 import (
 	"database/sql"
@@ -18,8 +18,8 @@ type (
 	}
 
 	DB struct {
-		database *sqlx.DB
-		tables   map[data.Kind]string
+		*sqlx.DB
+		tables map[data.Kind]string
 	}
 )
 
@@ -37,8 +37,8 @@ func New(opts *Opts) (*DB, error) {
 	db := sqlx.NewDb(opts.Database, opts.DriverName)
 
 	return &DB{
-		database: db,
-		tables:   make(map[data.Kind]string),
+		DB:     db,
+		tables: make(map[data.Kind]string),
 	}, nil
 }
 

@@ -1,4 +1,4 @@
-package sql
+package osql
 
 import (
 	"database/sql"
@@ -28,7 +28,7 @@ func (db *DB) PopulateByID(r data.Record) error {
 	}
 
 	stmt := fmt.Sprintf("SELECT * FROM %s WHERE id=?", table)
-	err = db.database.QueryRowx(stmt, id).StructScan(r)
+	err = db.DB.QueryRowx(stmt, id).StructScan(r)
 
 	switch {
 	case err == sql.ErrNoRows:
