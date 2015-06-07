@@ -14,6 +14,15 @@ func Map(r data.Record) data.KindMap {
 	}
 }
 
+// Turns a KindMap into a map[string]interface
+func StringMap(km data.KindMap) map[string]interface{} {
+	m := make(map[string]interface{})
+	for k, v := range km {
+		m[string(k)] = v
+	}
+	return m
+}
+
 // Transfers json based struct fields from this to that
 func TransferAttrs(this interface{}, that interface{}) error {
 	bytes, err := json.Marshal(this)

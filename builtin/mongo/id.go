@@ -50,7 +50,7 @@ func IsObjectIDHex(hex string) bool {
 }
 
 func NewIDSetFromStrings(strings []string) IDSet {
-	set := make(IDSet, len(strings))
+	set := make(IDSet, 0)
 	for _, s := range strings {
 		pid, _ := ParseObjectID(s)
 		set = AddID(set, pid)
