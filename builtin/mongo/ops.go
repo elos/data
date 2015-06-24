@@ -98,7 +98,12 @@ func (db *DB) PopulateByField(field string, value interface{}, r data.Record) er
 		return err
 	}
 
-	return collection.Find(bson.M{field: value}).One(r)
+	err = collection.Find(bson.M{field: value}).One(r)
+	if err == mgo.ErrNotFound {
+		return data.ErrNotFound
+	} else {
+		return err
+	}
 }
 
 func (db *DB) NewQuery(k data.Kind) data.Query {
