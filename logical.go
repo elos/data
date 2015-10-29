@@ -39,6 +39,10 @@ type (
 	}
 )
 
+func Equivalent(r1, r2 Record) bool {
+	return r1.Kind() == r2.Kind() && r1.ID().String() == r2.ID().String()
+}
+
 type (
 	Query interface {
 		Execute() (Iterator, error)
