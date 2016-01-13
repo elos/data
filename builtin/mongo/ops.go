@@ -106,7 +106,7 @@ func (db *DB) PopulateByField(field string, value interface{}, r data.Record) er
 	}
 }
 
-func (db *DB) NewQuery(k data.Kind) data.Query {
+func (db *DB) Query(k data.Kind) data.Query {
 	return &Query{
 		db:    db,
 		kind:  k,
