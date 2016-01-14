@@ -1,7 +1,5 @@
 package data
 
-import "sync"
-
 // primitive type declarations
 type (
 	// ID is a type for indicating that a string is encodes an identifier value
@@ -117,7 +115,6 @@ type (
 		// the data.Deleter interface always completely erases the record. So you
 		// should define your own interface
 		//		package custom
-		//
 		//
 		//		// SoftDeleter 'deletes' a record by setting it's DeletedAt
 		//		// attribute.
@@ -236,9 +233,7 @@ type (
 		SetID(ID)
 		Kind() Kind
 	}
-)
 
-type (
 	Query interface {
 		Execute() (Iterator, error)
 		Skip(int) Query
@@ -250,7 +245,6 @@ type (
 	Iterator interface {
 		Next(Record) bool
 		Close() error
-		sync.Locker
 	}
 )
 
