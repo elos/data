@@ -85,7 +85,7 @@ type (
 	// that need only generate and parse IDs.
 	IDer interface {
 		NewID() ID
-		ParseID(string) (ID, error)
+		ParseID(encodedID string) (ID, error)
 	}
 
 	// A Saver can persist Records from a data store.
@@ -93,6 +93,22 @@ type (
 	// Use the Saver interface when you require an object
 	// that need only persist records.
 	Saver interface {
+		// Save persists a record. Save should implement the functionality of
+		// a so-called 'upsert'. If the record exists, it should be updated
+		// to the new structure, otherwise it should be created, and then stored.
+		//
+		// The meaning of 'persist' can vary over different implementations.
+		// For an in memory data store, it may mean throwing the record in a
+		// a map, although for other datastore it may mean encoding the Record
+		// and then sending it over the wire to the database management system.
+		//
+		// Save may return the following errors:
+		//  * ErrNoConnection
+		//		- The Saver has lost connection
+		//  * ErrInvalidID
+		//		- The Record's ID has an invalid encoding
+		//	* ErrAccessDenial
+		//		- The client does not have permission to modify/create the record
 		Save(r Record) error
 	}
 
@@ -101,15 +117,52 @@ type (
 	// Use the Deleter interface when you require an object
 	// that need only remove records.
 	Deleter interface {
-		Delete(r Record) error
+		// Save persists a record. Save should implement the functionality of
+		// of completely removing a record from the data store.
+		//
+		// The meaning of delete can vary from application to application, and
+		// from database to database. Here we adopt the traditional definition
+		// of completely erasing the structure. Were you to want to implement
+		// a custom form of deletion, such as setting some attribute on the
+		// structure, you could do so by implementing a structure which also
+		// implemented the Deleter interface, but took special measures. However
+		// the data.Deleter interface always completely erases the record. So you
+		// should define your own interface
+		//		package custom
+		//
+		//
+		//		// SoftDeleter 'deletes' a record by setting it's DeletedAt
+		//		// attribute.
+		//		type SoftDeleter interface{
+		//			data.Deleter
+		//		}
+		//
+		// Delete may return the following errors:
+		//  * ErrNoConnection
+		//		- The Saver has lost connection
+		//  * ErrInvalidID
+		//		- The Record's ID has an invalid encoding
+		//	* ErrAccessDenial
+		//		- The client does not have permission to delete the record
+		//
+		// Note: ErrNotFound is not a valid error. If the record does not exist
+		// then the Deleter should ignore the request.
+		Delete(r Record) error // TODO: move to custom error type Error
 	}
 
-	// A Queryer can query Records from a data store.
+	// A Queryer can produce Queries which can query over
+	// Records from a data store.
 	//
 	// Use the Queryer interface when you require an object
 	// that need only query records.
 	Queryer interface {
-		Query(Kind) Query
+		// Query creates a new Query over the domain of the
+		// given kind.
+		//
+		// A Queryer could also be considered a QueryProducer,
+		// as it does not actually execute the query, that is
+		// handled by a separate interface, namely a Query.
+		Query(k Kind) Query
 	}
 
 	// A Populater can perform the convenience functions of doing
