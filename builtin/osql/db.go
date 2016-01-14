@@ -9,8 +9,6 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-const Type data.DBType = "sql"
-
 type (
 	Opts struct {
 		Database   *sql.DB
@@ -44,10 +42,6 @@ func New(opts *Opts) (*DB, error) {
 
 func (db *DB) RegisterKind(k data.Kind, tableName string) {
 	db.tables[k] = tableName
-}
-
-func (db *DB) Type() data.DBType {
-	return Type
 }
 
 func (db *DB) NewID() data.ID {

@@ -10,7 +10,6 @@ import (
 
 const defaultName = "test"
 const defaultAddr = "localhost"
-const dbtype = data.DBType("mongo")
 
 type (
 	Opts struct {
@@ -101,10 +100,6 @@ func (db *DB) Collection(s *mgo.Session, k data.Kind) (*mgo.Collection, error) {
 		panic(fmt.Sprintf("data/builtin/mongo: undefined collection for kind: %s", k))
 	}
 	return s.DB(db.name).C(c), nil
-}
-
-func (db *DB) Type() data.DBType {
-	return dbtype
 }
 
 // data.DB implementation

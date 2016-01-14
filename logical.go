@@ -26,13 +26,6 @@ type (
 	// Use the Kind type to satisfy the Record interface, and to
 	// declare the Kinds which your program recognizes.
 	Kind string
-
-	// DBType is a type for indicating the 'type' of a DB. Similar to the Kind type,
-	// the DBType allows for partial dynamic inspection of the implementation of the
-	// underlying DB interface.
-	//
-	// Use DBType to implement the Type() method on the DB interface.
-	DBType string
 )
 
 // String cases the ID as a string
@@ -43,11 +36,6 @@ func (id ID) String() string {
 // String cases the Kind as a string
 func (k Kind) String() string {
 	return string(k)
-}
-
-// String casts the Type as a string
-func (t DBType) String() string {
-	return string(t)
 }
 
 // We define types for working with persisted structures in Go.
@@ -231,15 +219,6 @@ type (
 	//
 	// Use a DB to interface with persistent application state.
 	DB interface {
-		// Type() returns the DBType of this database.
-		//
-		// Use Type() conservatively, and only for dynamic inspection of
-		// the database. A common use case is in printing error messages
-		// and inspecting a bit more the type of DB you have
-		//
-		// TODO: DEPRECATE
-		Type() DBType
-
 		IDer
 		Saver
 		Deleter

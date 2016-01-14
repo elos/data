@@ -10,10 +10,6 @@ import (
 	"github.com/elos/data/transfer"
 )
 
-const (
-	dbType = data.DBType("memory")
-)
-
 func NewDB() data.DB {
 	return &MemDB{
 		ChangePub: data.NewChangePub(),
@@ -27,10 +23,6 @@ type MemDB struct {
 
 	currentID int
 	tables    map[data.Kind]map[data.ID]data.Record
-}
-
-func (db *MemDB) Type() data.DBType {
-	return dbType
 }
 
 func (db *MemDB) NewID() data.ID {
