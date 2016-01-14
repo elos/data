@@ -69,7 +69,7 @@ func (h *ChangePub) Notify(c *Change) {
 	defer h.m.Unlock()
 
 	for _, ch := range h.subs {
-		go func() { *ch <- c }()
+		go func(channel chan<- *Change) { channel <- c }(*ch)
 	}
 }
 
