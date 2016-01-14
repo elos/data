@@ -169,14 +169,75 @@ type (
 	// 'take first' queries on individual records.
 	//
 	// Use the Populater interface when you require an object that
-	// need only lookup records by ID or, perhaps,  by individual
+	// need only lookup records by ID or, perhaps, by individual
 	// field names.
 	Populater interface {
+		// PopulateByID populates the structure of a record by using
+		// the Record's Kind() and ID().
+		//
+		// PopulateByID may return the following errors
+		//	* ErrNotFound
+		//		* The record with the given kind and id does not exist
+		//  * ErrNoConnection
+		//		- The Populater has lost connection
+		//  * ErrInvalidID
+		//		- The Record's ID has an invalid encoding
+		//	* ErrAccessDenial
+		//		- The client does not have permission to load the record
+		//			(see access note below)
 		PopulateByID(Record) error
-		PopulateByField(string, interface{}, Record) error
+
+		// PopulateByField populates the structure of a records by using
+		// the record's Kind(), the field and the value. It is possible
+		// that multiple records contain the (field, value) pair, in this
+		// scenario the one that gets populated into the Record structure
+		// is undefined. Furthermore, it is _not_ guaranteed that
+		// PopulateByField should populate the same record twice.
+		//
+		// PopulateByField is the generic form of PopulateByID. It should
+		// only be used when the field is some sort of identification, and is
+		// guaranteed to be unique across the domain given by the record's kind.
+		//
+		// PopulateByField may return the following errors
+		//	* ErrNotFound
+		//		* The record with the given kind, field, and value does not exist
+		//  * ErrNoConnection
+		//		- The Populater has lost connection
+		//	* ErrAccessDenial
+		//		- The client does not have permission to load the record
+		//			(see access note below)
+		PopulateByField(field string, value interface{}, r Record) error
+
+		// ErrAccessDenial Note:
+		//	Returning ErrAccessDenial to an end user is poor access
+		//	control, as	it leaks information, namely, that the Record
+		//	does indeed exist. Therefore a client using a Populater
+		// 	should, perhaps, change a ErrAccessDenial to ErrNotFound in
+		//	order to avoid leaking information. However, a Populater's
+		//	PopulateByID and PopulateByField methods are defined to expose
+		//	the information associated 	with ErrAccessDenial)
 	}
 
+	// A DB is the composition of the individual interfaces which
+	// a data store conventionally satisfies. DB is a relatively
+	// high-level interface, and contains many methods, which does
+	// weaken the abstraction. Still, DB maintains a layer of abstraction
+	// between client programs and the management of persistent state
+	//
+	// We define persistent state generally to be state which survives
+	// across processes and nodes, however a DB could be backed by
+	// an in-memory store. Such interchangeability is indeed the benefit
+	// of the DB interface.
+	//
+	// Use a DB to interface with persistent application state.
 	DB interface {
+		// Type() returns the DBType of this database.
+		//
+		// Use Type() conservatively, and only for dynamic inspection of
+		// the database. A common use case is in printing error messages
+		// and inspecting a bit more the type of DB you have
+		//
+		// TODO: DEPRECATE
 		Type() DBType
 
 		IDer
