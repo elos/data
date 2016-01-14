@@ -77,6 +77,7 @@ func (h *ChangePub) Notify(c *Change) {
 
 // Filtering {{{
 
+// TODO make name clearer
 func Filter(ch *chan *Change, fn FilterFunc) *chan *Change {
 	nc := make(chan *Change)
 
@@ -91,6 +92,7 @@ func Filter(ch *chan *Change, fn FilterFunc) *chan *Change {
 	return &nc
 }
 
+// TODO make name clearer
 func FilterKind(ch *chan *Change, k Kind) *chan *Change {
 	return Filter(ch, func(change *Change) bool {
 		return change.Record.Kind() == k
