@@ -121,7 +121,7 @@ func (q *memQuery) exec() (data.Iterator, error) {
 	if !ok {
 		out := make(chan data.Record)
 		defer close(out)
-		return iter(out), nil
+		return Iter(out), nil
 	}
 
 	in := make(chan data.Record, len(table))
@@ -137,7 +137,7 @@ func (q *memQuery) exec() (data.Iterator, error) {
 		out = filter(out, s, v)
 	}
 
-	return iter(out), nil
+	return Iter(out), nil
 }
 
 func contains(r data.Record, field string, v interface{}) bool {
@@ -211,7 +211,7 @@ func (q *memQuery) Select(m data.AttrMap) data.Query {
 	return q
 }
 
-func iter(c <-chan data.Record) data.Iterator {
+func Iter(c <-chan data.Record) data.Iterator {
 	return &memIter{
 		inbound: c,
 	}

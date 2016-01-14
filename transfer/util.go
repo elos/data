@@ -33,7 +33,7 @@ func TransferAttrs(this interface{}, that interface{}) error {
 }
 
 // Unmarshal json version of attr map into a record
-func Unmarshal(attrs data.AttrMap, r data.Record) (data.Record, error) {
+func UnmarshalAttrs(attrs data.AttrMap, r data.Record) (data.Record, error) {
 	bytes, err := json.Marshal(attrs)
 	if err != nil {
 		return r, err

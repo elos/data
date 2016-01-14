@@ -103,7 +103,7 @@ type (
 	// Use the Deleter interface when you require an object
 	// that need only remove records.
 	Deleter interface {
-		// Save persists a record. Save should implement the functionality of
+		// Delete persists a record. Delete should implement the functionality of
 		// of completely removing a record from the data store.
 		//
 		// The meaning of delete can vary from application to application, and
@@ -123,15 +123,14 @@ type (
 		//		}
 		//
 		// Delete may return the following errors:
+		//	* ErrNotFound
+		//		- The record with the given kind and id does not exist
 		//  * ErrNoConnection
-		//		- The Saver has lost connection
+		//		- The Deleter has lost connection
 		//  * ErrInvalidID
 		//		- The Record's ID has an invalid encoding
 		//	* ErrAccessDenial
 		//		- The client does not have permission to delete the record
-		//
-		// Note: ErrNotFound is not a valid error. If the record does not exist
-		// then the Deleter should ignore the request.
 		Delete(r Record) error // TODO: move to custom error type Error
 	}
 
