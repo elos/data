@@ -25,7 +25,7 @@ type (
 const (
 	// Update is the ChangeKind triggered on a save
 	// As such, it covers both creation and changeification
-	Update ChangeKind = iota
+	Update ChangeKind = iota + 1
 
 	// Delete is the ChangeKind triggered on Delete
 	Delete
