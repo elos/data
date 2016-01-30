@@ -107,9 +107,10 @@ func newMemQuery(k data.Kind, db *MemDB) *memQuery {
 }
 
 type memQuery struct {
-	kind   data.Kind
-	db     *MemDB
-	wheres map[string]interface{}
+	kind               data.Kind
+	db                 *MemDB
+	wheres             map[string]interface{}
+	limit, skip, batch int
 }
 
 func (q *memQuery) Execute() (data.Iterator, error) {
@@ -137,7 +138,30 @@ func (q *memQuery) exec() (data.Iterator, error) {
 		out = filter(out, s, v)
 	}
 
-	return Iter(out), nil
+	buffer := make(chan data.Record)
+
+	// buffer and simulate skipping/limitting
+
+	go func() {
+		index := -1 // so that it starts at 0 on the first recieve
+		for r := range out {
+			index++
+
+			if q.skip != 0 && index < q.skip {
+				continue // don't forward
+			}
+
+			if q.limit != 0 && index >= q.limit {
+				close(buffer)
+				return
+			}
+
+			buffer <- r
+		}
+		close(buffer)
+	}()
+
+	return Iter(buffer), nil
 }
 
 func contains(r data.Record, field string, v interface{}) bool {
@@ -193,14 +217,17 @@ func filter(in <-chan data.Record, field string, v interface{}) <-chan data.Reco
 }
 
 func (q *memQuery) Skip(i int) data.Query {
+	q.skip = i
 	return q
 }
 
 func (q *memQuery) Limit(i int) data.Query {
+	q.limit = i
 	return q
 }
 
 func (q *memQuery) Batch(i int) data.Query {
+	q.batch = i
 	return q
 }
 
