@@ -1,6 +1,7 @@
 package mongo
 
 import (
+	"log"
 	"sync"
 
 	"github.com/elos/data"
@@ -23,7 +24,10 @@ func (q *Query) Execute() (data.Iterator, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer s.Close()
+	defer func() {
+		log.Print("please be this bug")
+		s.Close()
+	}()
 
 	c, err := q.db.Collection(s, q.kind)
 	if err != nil {
