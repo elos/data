@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"sync"
-	"time"
 
 	"github.com/elos/data"
 	"gopkg.in/mgo.v2"
@@ -24,11 +23,6 @@ func (q *Query) Execute() (data.Iterator, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		// This is such a hack
-		time.Sleep(1 * time.Minute)
-		s.Close()
-	}()
 
 	c, err := q.db.Collection(s, q.kind)
 	if err != nil {
@@ -49,7 +43,7 @@ func (q *Query) Execute() (data.Iterator, error) {
 		mgoQuery.Batch(q.batch)
 	}
 
-	return newIter(mgoQuery.Iter()), nil
+	return newIter(mgoQuery.Iter(), s), nil
 }
 
 func (q *Query) Select(am data.AttrMap) data.Query {
@@ -85,12 +79,13 @@ func (q *Query) Batch(i int) data.Query {
 }
 
 type iter struct {
-	iter *mgo.Iter
+	iter    *mgo.Iter
+	session *mgo.Session
 	sync.Mutex
 }
 
-func newIter(i *mgo.Iter) data.Iterator {
-	return &iter{iter: i}
+func newIter(i *mgo.Iter, s *mgo.Session) data.Iterator {
+	return &iter{iter: i, session: s}
 }
 
 func (i *iter) Next(r data.Record) bool {
@@ -98,5 +93,6 @@ func (i *iter) Next(r data.Record) bool {
 }
 
 func (i *iter) Close() error {
+	defer i.session.Close()
 	return i.iter.Close()
 }
