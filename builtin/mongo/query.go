@@ -1,8 +1,8 @@
 package mongo
 
 import (
-	"log"
 	"sync"
+	"time"
 
 	"github.com/elos/data"
 	"gopkg.in/mgo.v2"
@@ -25,7 +25,8 @@ func (q *Query) Execute() (data.Iterator, error) {
 		return nil, err
 	}
 	defer func() {
-		log.Print("please be this bug")
+		// This is such a hack
+		time.Sleep(1 * time.Minute)
 		s.Close()
 	}()
 
@@ -48,7 +49,7 @@ func (q *Query) Execute() (data.Iterator, error) {
 		mgoQuery.Batch(q.batch)
 	}
 
-	return newIter(mgoQuery.Iter(), q), nil
+	return newIter(mgoQuery.Iter()), nil
 }
 
 func (q *Query) Select(am data.AttrMap) data.Query {
@@ -84,37 +85,18 @@ func (q *Query) Batch(i int) data.Query {
 }
 
 type iter struct {
-	count         int
-	iter          *mgo.Iter
-	originalQuery *Query
-	err           error
+	iter *mgo.Iter
 	sync.Mutex
 }
 
-func newIter(i *mgo.Iter, query *Query) data.Iterator {
-	return &iter{iter: i, originalQuery: query}
+func newIter(i *mgo.Iter) data.Iterator {
+	return &iter{iter: i}
 }
 
 func (i *iter) Next(r data.Record) bool {
-	if i.count == 100 {
-		i.originalQuery.skip += 100
-		ni, err := i.originalQuery.Execute()
-		if err != nil {
-			i.err = err
-			return false
-		}
-
-		*i = *(ni.(*iter))
-	}
-
-	i.count++
-
 	return i.iter.Next(r)
 }
 
 func (i *iter) Close() error {
-	if i.err != nil {
-		return i.err
-	}
 	return i.iter.Close()
 }
