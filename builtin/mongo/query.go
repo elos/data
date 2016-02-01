@@ -44,7 +44,7 @@ func (q *Query) Execute() (data.Iterator, error) {
 		mgoQuery.Batch(q.batch)
 	}
 
-	return newIter(mgoQuery.Iter()), nil
+	return newIter(mgoQuery.Iter(), q), nil
 }
 
 func (q *Query) Select(am data.AttrMap) data.Query {
@@ -80,18 +80,37 @@ func (q *Query) Batch(i int) data.Query {
 }
 
 type iter struct {
-	iter *mgo.Iter
+	count         int
+	iter          *mgo.Iter
+	originalQuery *Query
+	err           error
 	sync.Mutex
 }
 
-func newIter(i *mgo.Iter) data.Iterator {
-	return &iter{iter: i}
+func newIter(i *mgo.Iter, query *Query) data.Iterator {
+	return &iter{iter: i, originalQuery: query}
 }
 
 func (i *iter) Next(r data.Record) bool {
+	if i.count == 100 {
+		i.originalQuery.skip += 100
+		ni, err := i.originalQuery.Execute()
+		if err != nil {
+			i.err = err
+			return false
+		}
+
+		*i = *(ni.(*iter))
+	}
+
+	i.count++
+
 	return i.iter.Next(r)
 }
 
 func (i *iter) Close() error {
+	if i.err != nil {
+		return i.err
+	}
 	return i.iter.Close()
 }
