@@ -1,10 +1,6 @@
 package data
 
-import (
-	"sync"
-
-	"golang.org/x/net/context"
-)
+import "golang.org/x/net/context"
 
 type (
 	// A changeKind indicates the nature of a Chage
@@ -18,9 +14,10 @@ type (
 		ChangeKind `json:"kind"`
 	}
 
-	ChangePub struct {
-		m    sync.Mutex
-		subs []*chan *Change
+	ChangeHub struct {
+		subs     []chan *Change
+		register chan chan *Change
+		Inbound  chan *Change
 	}
 
 	FilterFunc func(c *Change) bool
@@ -51,34 +48,6 @@ func NewDelete(r Record) *Change {
 
 // }}}
 
-// ChangePub Implementation {{{
-
-func NewChangePub() *ChangePub {
-	return &ChangePub{
-		subs: make([]*chan *Change, 0),
-	}
-}
-
-func (h *ChangePub) Changes() *chan *Change {
-	h.m.Lock()
-	defer h.m.Unlock()
-
-	c := make(chan *Change)
-	h.subs = append(h.subs, &c)
-	return &c
-}
-
-func (h *ChangePub) Notify(c *Change) {
-	h.m.Lock()
-	defer h.m.Unlock()
-
-	for _, ch := range h.subs {
-		go func(channel chan<- *Change) { channel <- c }(*ch)
-	}
-}
-
-// }}}
-
 func NewChangeHub(ctx context.Context) *ChangeHub {
 	hub := &ChangeHub{
 		subs:     make([]chan *Change, 0),
@@ -87,12 +56,6 @@ func NewChangeHub(ctx context.Context) *ChangeHub {
 	}
 	go hub.start(ctx)
 	return hub
-}
-
-type ChangeHub struct {
-	subs     []chan *Change
-	register chan chan *Change
-	Inbound  chan *Change
 }
 
 func (h *ChangeHub) start(ctx context.Context) {
