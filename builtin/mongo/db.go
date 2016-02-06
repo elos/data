@@ -10,7 +10,7 @@ import (
 )
 
 const defaultName = "test"
-const defaultAddr = "localhost"
+const defaultAddr = "0.0.0.0:27017"
 
 type (
 	Opts struct {

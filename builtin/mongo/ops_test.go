@@ -10,7 +10,7 @@ import (
 )
 
 func TestSave(t *testing.T) {
-	db, err := mongo.New(&mongo.Opts{Addr: "localhost"})
+	db, err := mongo.New(&mongo.Opts{Addr: "0.0.0.0"})
 	expect.NoError("creating db", err, t)
 	db.RegisterKind(UserKind, "users")
 
@@ -28,6 +28,7 @@ func TestSave(t *testing.T) {
 	if err := db.Save(u); err != data.ErrInvalidID {
 		t.Errorf("Mongo should not choke on bad ids")
 	}
+	defer db.Delete(u)
 
 	u.SetID(db.NewID())
 
@@ -54,7 +55,7 @@ func TestSave(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	db, err := mongo.New(&mongo.Opts{Addr: "localhost"})
+	db, err := mongo.New(&mongo.Opts{Addr: "0.0.0.0"})
 	expect.NoError("creating db", err, t)
 	db.RegisterKind(UserKind, "users")
 
@@ -85,7 +86,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestPopulate(t *testing.T) {
-	db, err := mongo.New(&mongo.Opts{Addr: "localhost"})
+	db, err := mongo.New(&mongo.Opts{Addr: "0.0.0.0"})
 	expect.NoError("creating db", err, t)
 	db.RegisterKind(UserKind, "users")
 
@@ -98,6 +99,7 @@ func TestPopulate(t *testing.T) {
 
 	err = db.Save(u)
 	expect.NoError("saving model", err, t)
+	defer db.Delete(u)
 
 	u = &User{}
 
