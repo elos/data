@@ -1,6 +1,10 @@
 package data
 
-import "sync"
+import (
+	"sync"
+
+	"golang.org/x/net/context"
+)
 
 type (
 	// A changeKind indicates the nature of a Chage
@@ -10,8 +14,8 @@ type (
 	// backed by a store. Any succesful changeification to the underlying
 	// DB should trigger a Change
 	Change struct {
-		Record
-		ChangeKind
+		Record     `json:"record"`
+		ChangeKind `json:"kind"`
 	}
 
 	ChangePub struct {
@@ -74,6 +78,58 @@ func (h *ChangePub) Notify(c *Change) {
 }
 
 // }}}
+
+func NewChangeHub(ctx context.Context) *ChangeHub {
+	hub := &ChangeHub{
+		subs:     make([]chan *Change, 0),
+		register: make(chan chan *Change),
+		Inbound:  make(chan *Change),
+	}
+	go hub.start(ctx)
+	return hub
+}
+
+type ChangeHub struct {
+	subs     []chan *Change
+	register chan chan *Change
+	Inbound  chan *Change
+}
+
+func (h *ChangeHub) start(ctx context.Context) {
+Run:
+	for {
+		select {
+		// add registstrations to subs
+		case sub := <-h.register:
+			h.subs = append(h.subs, sub)
+		// fan out changes
+		case change := <-h.Inbound:
+			for _, sub := range h.subs {
+				go func() {
+					sub <- change
+				}()
+			}
+		// end
+		case <-ctx.Done():
+			break Run
+		}
+	}
+}
+
+func (h *ChangeHub) Changes() *chan *Change {
+	// make the channel
+	c := make(chan *Change)
+	// register it
+	h.register <- c
+	// return it
+	return &c
+}
+
+func (h *ChangeHub) Notify(c *Change) {
+	go func() {
+		h.Inbound <- c
+	}()
+}
 
 // Filtering {{{
 

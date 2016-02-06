@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/elos/data"
+	"golang.org/x/net/context"
 	"gopkg.in/mgo.v2"
 )
 
@@ -26,7 +27,7 @@ type (
 		conn        *Conn
 		collections map[data.Kind]string
 		m           sync.Mutex
-		pub         *data.ChangePub
+		hub         *data.ChangeHub
 	}
 )
 
@@ -68,7 +69,7 @@ func New(o *Opts) (*DB, error) {
 		conn:        c,
 		name:        name,
 		collections: make(map[data.Kind]string),
-		pub:         data.NewChangePub(),
+		hub:         data.NewChangeHub(context.TODO()),
 	}, nil
 }
 
@@ -118,7 +119,7 @@ func (db *DB) ParseID(s string) (data.ID, error) {
 
 // data.DB implementation
 func (db *DB) Changes() *chan *data.Change {
-	return db.pub.Changes()
+	return db.hub.Changes()
 }
 
 // }}}
