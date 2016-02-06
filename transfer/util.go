@@ -40,3 +40,25 @@ func UnmarshalAttrs(attrs data.AttrMap, r data.Record) (data.Record, error) {
 	}
 	return r, json.Unmarshal(bytes, r)
 }
+
+type ChangeTransport struct {
+	ChangeKind data.ChangeKind        `json:"change_kind"`
+	RecordKind data.Kind              `json:"record_kind"`
+	Record     map[string]interface{} `json:"record"`
+}
+
+func Change(c *data.Change) *ChangeTransport {
+	m := make(map[string]interface{})
+	TransferAttrs(c.Record, &m)
+
+	return &ChangeTransport{
+		ChangeKind: c.ChangeKind,
+		RecordKind: c.Record.Kind(),
+		Record:     m,
+	}
+}
+
+func ChangeFrom(ct *ChangeTransport, r data.Record) *data.Change {
+	TransferAttrs(ct.Record, r)
+	return data.NewChange(ct.ChangeKind, r)
+}
