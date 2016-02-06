@@ -105,9 +105,9 @@ Run:
 		// fan out changes
 		case change := <-h.Inbound:
 			for _, sub := range h.subs {
-				go func() {
-					sub <- change
-				}()
+				go func(s chan<- *Change, c *Change) {
+					s <- c // send the change to the subscribe
+				}(sub, change)
 			}
 		// end
 		case <-ctx.Done():
