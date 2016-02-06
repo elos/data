@@ -26,7 +26,7 @@ func (db *DB) Save(r data.Record) error {
 
 	_, err = collection.UpsertId(bid, r)
 
-	if err != nil {
+	if err == nil {
 		db.hub.Notify(data.NewUpdate(r))
 	}
 
@@ -53,7 +53,7 @@ func (db *DB) Delete(r data.Record) error {
 
 	err = collection.RemoveId(bid)
 
-	if err != nil {
+	if err == nil {
 		db.hub.Notify(data.NewDelete(r))
 	}
 

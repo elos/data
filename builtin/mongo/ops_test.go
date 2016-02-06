@@ -130,3 +130,28 @@ func TestPopulate(t *testing.T) {
 		t.Errorf("ID of the populated model didn't match, got: %s, wanted: %s", u.ID().String(), id.String())
 	}
 }
+
+func TestChanges(t *testing.T) {
+	db, err := mongo.New(&mongo.Opts{Addr: "0.0.0.0"})
+	expect.NoError("creating db", err, t)
+	db.RegisterKind(UserKind, "users")
+
+	changes := *db.Changes()
+
+	// create user
+	u := &User{}
+	userName := "name"
+	u.Name = userName
+	id := db.NewID()
+	u.SetID(id)
+	err = db.Save(u)
+	expect.NoError("saving model", err, t)
+	defer db.Delete(u)
+
+	select {
+	case c := <-changes:
+		t.Logf("Recieved Change:\n%+v", c)
+	case <-time.After(100 * time.Millisecond):
+		t.Fatal("Didn't recieve a change")
+	}
+}
