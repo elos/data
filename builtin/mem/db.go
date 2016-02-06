@@ -8,18 +8,19 @@ import (
 
 	"github.com/elos/data"
 	"github.com/elos/data/transfer"
+	"golang.org/x/net/context"
 )
 
 func NewDB() data.DB {
 	return &MemDB{
-		ChangePub: data.NewChangePub(),
+		ChangeHub: data.NewChangeHub(context.TODO()),
 		currentID: 0,
 		tables:    make(map[data.Kind]map[data.ID]data.Record),
 	}
 }
 
 type MemDB struct {
-	*data.ChangePub
+	*data.ChangeHub
 
 	currentID int
 	tables    map[data.Kind]map[data.ID]data.Record
@@ -43,7 +44,7 @@ func (db *MemDB) Save(r data.Record) error {
 
 	table[r.ID()] = r
 
-	db.ChangePub.Notify(data.NewUpdate(r))
+	db.ChangeHub.Notify(data.NewUpdate(r))
 
 	return nil
 }
@@ -60,7 +61,7 @@ func (db *MemDB) Delete(r data.Record) error {
 	}
 
 	delete(table, r.ID())
-	db.ChangePub.Notify(data.NewDelete(r))
+	db.ChangeHub.Notify(data.NewDelete(r))
 
 	return nil
 }
