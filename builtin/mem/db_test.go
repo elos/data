@@ -100,3 +100,60 @@ func TestQuerySkip(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestQueryOrder(t *testing.T) {
+	db := mem.WithData(map[data.Kind][]data.Record{
+		TestRecordKind: []data.Record{
+			&TestRecord{
+				Id:    "1",
+				Name:  "third",
+				Count: 3,
+			},
+			&TestRecord{
+				Id:    "2",
+				Name:  "second",
+				Count: 2,
+			},
+			&TestRecord{
+				Id:    "3",
+				Name:  "first",
+				Count: 1,
+			},
+		},
+	})
+
+	iter, err := db.Query(TestRecordKind).Order("Count").Execute()
+	if err != nil {
+		t.Fatalf("db.Query error: %v", err)
+	}
+
+	record := new(TestRecord)
+
+	if got, want := iter.Next(record), true; got != want {
+		t.Fatalf("iter.Next: got %t, want %t", got, want)
+	}
+
+	if got, want := record.Name, "first"; got != want {
+		t.Errorf("record.Name: got %q, want %q", got, want)
+	}
+
+	if got, want := iter.Next(record), true; got != want {
+		t.Fatalf("iter.Next: got %t, want %t", got, want)
+	}
+
+	if got, want := record.Name, "second"; got != want {
+		t.Errorf("record.Name: got %q, want %q", got, want)
+	}
+
+	if got, want := iter.Next(record), true; got != want {
+		t.Fatalf("iter.Next: got %t, want %t", got, want)
+	}
+
+	if got, want := record.Name, "third"; got != want {
+		t.Errorf("record.Name: got %q, want %q", got, want)
+	}
+
+	if err := iter.Close(); err != nil {
+		t.Fatalf("iter.Close error: %v", err)
+	}
+}

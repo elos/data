@@ -12,6 +12,7 @@ type Query struct {
 	kind               data.Kind
 	match              data.AttrMap
 	limit, skip, batch int
+	order              []string
 	m                  sync.Mutex
 }
 
@@ -41,6 +42,10 @@ func (q *Query) Execute() (data.Iterator, error) {
 
 	if q.batch != 0 {
 		mgoQuery.Batch(q.batch)
+	}
+
+	if len(q.order) > 0 {
+		mgoQuery.Sort(q.order...)
 	}
 
 	return newIter(mgoQuery.Iter(), s), nil
@@ -75,6 +80,14 @@ func (q *Query) Batch(i int) data.Query {
 	defer q.m.Unlock()
 
 	q.batch = i
+	return q
+}
+
+func (q *Query) Order(fields ...string) data.Query {
+	q.m.Lock()
+	defer q.m.Unlock()
+
+	q.order = fields
 	return q
 }
 

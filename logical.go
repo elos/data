@@ -239,6 +239,7 @@ type (
 		Limit(int) Query
 		Batch(int) Query
 		Select(AttrMap) Query
+		Order(field ...string) Query
 	}
 
 	Iterator interface {
