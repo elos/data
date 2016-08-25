@@ -30,6 +30,8 @@ const (
 
 	// Delete is the ChangeKind triggered on Delete
 	Delete
+
+	Create
 )
 
 // Change Implementation {{{
@@ -44,6 +46,10 @@ func NewUpdate(r Record) *Change {
 
 func NewDelete(r Record) *Change {
 	return NewChange(Delete, r)
+}
+
+func NewCreate(r Record) *Change {
+	return NewChange(Create, r)
 }
 
 // }}}

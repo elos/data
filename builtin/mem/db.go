@@ -2,8 +2,8 @@
 package mem
 
 import (
+	"bytes"
 	"fmt"
-	"log"
 	"sort"
 	"strconv"
 	"sync"
@@ -60,6 +60,17 @@ type MemDB struct {
 	tables    map[data.Kind]map[data.ID]data.Record
 }
 
+func (db *MemDB) String() string {
+	b := new(bytes.Buffer)
+	for k, table := range db.tables {
+		fmt.Fprintf(b, "%s:\n", k)
+		for _, rec := range table {
+			fmt.Fprintf(b, "\t%v\n", rec)
+		}
+	}
+	return b.String()
+}
+
 func (db *MemDB) NewID() data.ID {
 	db.currentID += 1
 	return data.ID(fmt.Sprintf("%d", db.currentID))
@@ -75,14 +86,36 @@ func (db *MemDB) Save(r data.Record) error {
 		table = make(map[data.ID]data.Record)
 		db.tables[r.Kind()] = table
 	}
+	/*
+		var created bool
+
+		if string(r.ID()) == "" {
+			r.SetID(db.NewID())
+			created = true
+		}
+
+		table[r.ID()] = r
+
+		if created {
+			db.ChangeHub.Notify(data.NewCreate(r))
+		} else {
+			db.ChangeHub.Notify(data.NewUpdate(r))
+		}
+	*/
 
 	if string(r.ID()) == "" {
 		return data.ErrInvalidID
 	}
 
+	_, existed := table[r.ID()]
+
 	table[r.ID()] = r
 
-	db.ChangeHub.Notify(data.NewUpdate(r))
+	if existed {
+		db.ChangeHub.Notify(data.NewUpdate(r))
+	} else {
+		db.ChangeHub.Notify(data.NewCreate(r))
+	}
 
 	return nil
 }
@@ -304,7 +337,7 @@ func sorted(in <-chan data.Record, fields ...string) <-chan data.Record {
 func contains(r data.Record, field string, v interface{}) bool {
 	m := make(map[string]interface{})
 	if err := transfer.TransferAttrs(r, &m); err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("trying to transfer from %+v of type %T error: %v", r, r, err))
 	}
 	return equals(m[field], v)
 }
