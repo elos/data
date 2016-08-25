@@ -5,6 +5,7 @@ import (
 
 	"github.com/elos/data"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Query struct {
@@ -14,6 +15,14 @@ type Query struct {
 	limit, skip, batch int
 	order              []string
 	m                  sync.Mutex
+}
+
+func m(in map[string]interface{}) bson.M {
+	m := bson.M{}
+	for k, v := range in {
+		m[k] = v
+	}
+	return m
 }
 
 func (q *Query) Execute() (data.Iterator, error) {
