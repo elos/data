@@ -15,6 +15,7 @@ type T struct {
 	Two int
 
 	Other *s
+	Bool  bool
 }
 
 func TestTransferAttrsToMap(t *testing.T) {
@@ -82,5 +83,33 @@ func TestTransferAttrsToStruct(t *testing.T) {
 
 	if got, want := to.Other.Foo, "yes"; got != want {
 		t.Errorf("to.Other.Foo: got %q, want %q", got, want)
+	}
+}
+
+func TestTransferOverride(t *testing.T) {
+	from := &T{
+		One:   "one",
+		Two:   2,
+		Other: nil,
+		Bool:  false,
+	}
+
+	to := &T{
+		One: "one",
+		Two: 2,
+		Other: &s{
+			Foo: "yes",
+		},
+		Bool: true,
+	}
+
+	transfer.TransferAttrs(from, to)
+
+	if got, want := to.Other, (*s)(nil); got != want {
+		t.Errorf("to.Other: got %v, want %v", got, want)
+	}
+
+	if got, want := to.Bool, false; got != want {
+		t.Errorf("to.Bool: got %t, want %t", got, want)
 	}
 }
