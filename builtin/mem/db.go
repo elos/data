@@ -330,6 +330,7 @@ func sorted(in <-chan data.Record, fields ...string) <-chan data.Record {
 		for _, r := range records {
 			out <- r.Record
 		}
+		close(out)
 	}()
 	return out
 }
